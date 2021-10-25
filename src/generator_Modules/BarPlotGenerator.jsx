@@ -1,7 +1,6 @@
 import Plot from 'react-plotly.js';
 
 const Generator = (props) => {
-    console.log('props: ',props);
     return(
         // <p>Test</p>
         <Plot

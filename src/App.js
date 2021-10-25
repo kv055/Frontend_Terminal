@@ -1,11 +1,14 @@
 import {useState, useEffect} from 'react';
+import DataFetch from './fetch_Modules/DataFetch'
 
-import DataFetch from './fetchModules/DataFetch'
+//DataSet Formater modules
+import LineFormater  from './formater_Modules/Line_Formater'
 
 //Plot Generator Modules
-import LinePlot from './fetchModules/LinePlotGenerator'
-import OHLCPlot from './fetchModules/OHLCPlotGenerator'
-import BarPlot from './fetchModules/BarPlotGenerator'
+import LinePlot from './generator_Modules/LinePlotGenerator'
+import OHLCPlot from './generator_Modules/OHLCPlotGenerator'
+import BarPlot from './generator_Modules/BarPlotGenerator'
+import LineTest from './generator_Modules/lineTest'
 
 function App() {
 
@@ -18,7 +21,6 @@ function App() {
   useEffect(() => {
     let asyncRuntime = async () => {
       let setter = await DataFetch('http://127.0.0.1:5000/Indicators')
-      // console.log('setter: ',setter);
       let newIndicator = {
         isLoading: false,
         data: setter
@@ -63,11 +65,8 @@ function App() {
     }
     asyncRuntime()
   },[])
-  
+
   // Conditional Rendering Varables
-  let LineChart = Indicator.isLoading === true ? 
-    <p>Loading</p>  : 
-    <LinePlot plotlyObj={Indicator.data.Indicators} />
 
   let OHLCChart = OHLC.isLoading === true ? 
     <p>Loading</p>  : 
@@ -77,13 +76,21 @@ function App() {
     <p>Loading</p>  : 
     <BarPlot plotlyObj={Simulation.data.Simulation} />
 
+  let LineChart = Indicator.isLoading === true ? 
+    <p>Loading</p>  : 
+    <LinePlot plotlyObj={Indicator.data.Indicators}/>
 
-  console.log(OHLCPlot);
+  let Lin = Indicator.isLoading === true ? 
+  <p>Loading</p>  : 
+  <LineTest plotlyObj={LineFormater(Indicator.data.Indicators)}/>
+
+
   return (
     <div className="App">
-      {[LineChart]}
       {[OHLCChart]}
       {[SimulationChart]}
+      {LineChart}
+      {Lin}
     </div>
   );
 }
