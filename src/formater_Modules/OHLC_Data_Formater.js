@@ -1,4 +1,4 @@
-    let creator = (OHLCSet)=>{
+let creator = (OHLCSet)=>{
     let plotlyDataSet = {
         //X-Axis
         x: [],

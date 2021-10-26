@@ -2,34 +2,35 @@ import {useState, useEffect} from 'react';
 import DataFetch from './fetch_Modules/DataFetch'
 
 //DataSet Formater modules
-import Line_Data_Formater  from './formater_Modules/Line_Data_Formater'
 import OHLC_Data_Formater from './formater_Modules/OHLC_Data_Formater'
 import OHLC_Layout_Formater from './formater_Modules/OHLC_Layout_Formater'
+// import Line_Data_Formater from './formater_Modules/Line_Data_Formater'
+import Simulator_Data_Formater from './formater_Modules/Simulator_Data_Formater'
 
 //Plot Generator Modules
-import BarPlot from './generator_Modules/BarPlotGenerator'
-import LinePlot from './generator_Modules/LinePlotGenerator'
 import OHLCPlot from './generator_Modules/OHLCPlotGenerator'
+// import LinePlot from './generator_Modules/LinePlotGenerator'
+import BarPlot from './generator_Modules/BarPlotGenerator'
 
 function App() {
 
-  // Get OHLC Data, formate it for Plotly and write it into a State-Variable
-  //Fetch and save Indicator Data
-  const [Indicator, setIndicator] = useState({
-    isLoading: true
-  })
+  // // Get OHLC Data, formate it for Plotly and write it into a State-Variable
+  // //Fetch and save Indicator Data
+  // const [Indicator, setIndicator] = useState({
+  //   isLoading: true
+  // })
 
-  useEffect(() => {
-    let asyncRuntime = async () => {
-      let setter = await DataFetch('http://127.0.0.1:5000/Indicators')
-      let newIndicator = {
-        isLoading: false,
-        data: setter
-      }
-      setIndicator(newIndicator)
-    }
-    asyncRuntime()
-  },[])
+  // useEffect(() => {
+  //   let asyncRuntime = async () => {
+  //     let setter = await DataFetch('http://127.0.0.1:5000/Indicators')
+  //     let newIndicator = {
+  //       isLoading: false,
+  //       data: setter
+  //     }
+  //     setIndicator(newIndicator)
+  //   }
+  //   asyncRuntime()
+  // },[])
 
   //Fetch and save OHLC Data
   const [OHLC, setOHLC] = useState({
@@ -67,18 +68,11 @@ function App() {
     asyncRuntime()
   },[])
 
-  // Conditional Rendering Varables
-
-  
-  let SimulationChart = Simulation.isLoading === true ? 
-    <p>Loading</p>  : 
-    <BarPlot plotlyObj={Simulation.data.Simulation} />
-
-  let LineChart = Indicator.isLoading === true ? 
-    <p>Loading</p>  : 
-    <LinePlot 
-      dataSet={Line_Data_Formater(Indicator.data.Indicators)}
-    />
+  // let LineChart = Indicator.isLoading === true ? 
+  // <p>Loading</p>  : 
+  // <LinePlot 
+  //   dataSet={Line_Data_Formater(Indicator.data.Indicators)}
+  // />
 
   let OHLCChart = OHLC.isLoading === true ? 
     <p>Loading</p>  : 
@@ -87,12 +81,18 @@ function App() {
       layoutSet={OHLC_Layout_Formater()}
     />
 
+  let SimulationChart = Simulation.isLoading === true ?
+  <p>Loading</p>  : 
+  <BarPlot 
+    dataSet={Simulator_Data_Formater(Simulation.data.Simulation)}
+  />
+
 
   return (
     <div className="App">
-      {[SimulationChart]}
-      {LineChart}
       {OHLCChart}
+      {/* {LineChart} */}
+      {SimulationChart}
     </div>
   );
 }
