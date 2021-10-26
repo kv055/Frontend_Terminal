@@ -2,13 +2,14 @@ import {useState, useEffect} from 'react';
 import DataFetch from './fetch_Modules/DataFetch'
 
 //DataSet Formater modules
-import LineFormater  from './formater_Modules/Line_Formater'
+import Line_Data_Formater  from './formater_Modules/Line_Data_Formater'
+import OHLC_Data_Formater from './formater_Modules/OHLC_Data_Formater'
+import OHLC_Layout_Formater from './formater_Modules/OHLC_Layout_Formater'
 
 //Plot Generator Modules
+import BarPlot from './generator_Modules/BarPlotGenerator'
 import LinePlot from './generator_Modules/LinePlotGenerator'
 import OHLCPlot from './generator_Modules/OHLCPlotGenerator'
-import BarPlot from './generator_Modules/BarPlotGenerator'
-import LineTest from './generator_Modules/lineTest'
 
 function App() {
 
@@ -68,29 +69,30 @@ function App() {
 
   // Conditional Rendering Varables
 
-  let OHLCChart = OHLC.isLoading === true ? 
-    <p>Loading</p>  : 
-    <OHLCPlot plotlyObj={OHLC.data.OHLC} />
-
+  
   let SimulationChart = Simulation.isLoading === true ? 
     <p>Loading</p>  : 
     <BarPlot plotlyObj={Simulation.data.Simulation} />
 
   let LineChart = Indicator.isLoading === true ? 
     <p>Loading</p>  : 
-    <LinePlot plotlyObj={Indicator.data.Indicators}/>
+    <LinePlot 
+      dataSet={Line_Data_Formater(Indicator.data.Indicators)}
+    />
 
-  let Lin = Indicator.isLoading === true ? 
-  <p>Loading</p>  : 
-  <LineTest plotlyObj={LineFormater(Indicator.data.Indicators)}/>
+  let OHLCChart = OHLC.isLoading === true ? 
+    <p>Loading</p>  : 
+    <OHLCPlot 
+      dataSet={OHLC_Data_Formater(OHLC.data.OHLC)}
+      layoutSet={OHLC_Layout_Formater()}
+    />
 
 
   return (
     <div className="App">
-      {[OHLCChart]}
       {[SimulationChart]}
       {LineChart}
-      {Lin}
+      {OHLCChart}
     </div>
   );
 }
