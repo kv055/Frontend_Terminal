@@ -1,4 +1,5 @@
 let creator = (OHLCSet)=>{
+    
     let plotlyDataSet = {
         //X-Axis
         x: [],
@@ -11,7 +12,8 @@ let creator = (OHLCSet)=>{
         //Config
         type: 'candlestick', 
         xaxis: 'x', 
-        yaxis:'y'
+        yaxis:'y',
+        name: 'PriceData'
     }
 
     OHLCSet.forEach( candleStick => {
@@ -22,8 +24,8 @@ let creator = (OHLCSet)=>{
         plotlyDataSet.low.push(candleStick[3])
         plotlyDataSet.close.push(candleStick[4]) 
     })
-
-    return [plotlyDataSet]
+    // console.log(plotlyDataSet);
+    return plotlyDataSet
 }
 
 export default creator
