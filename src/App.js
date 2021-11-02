@@ -15,6 +15,9 @@ import BarPlot from './generator_Modules/BarPlotGenerator'
 import MultipleSetsGenerator from './generator_Modules/MultipleDataSetsGenerator'
 // import MultiplePlotsGenerator from './generator_Modules/MultiplePlotsGenerator'
 
+//UI Dashboard Modules
+import TradesHistory from './visualizer/TradesHistory'
+
 function App() {
 
   // Get OHLC Data, formate it for Plotly and write it into a State-Variable
@@ -69,6 +72,13 @@ function App() {
     asyncRuntime()
   },[])
 
+  // Initialise Dashboard
+  let DashBoardTest = Simulation.isLoading === true ?
+    <p>Loading</p> :
+    <TradesHistory 
+      dataSet={Simulation.data.Simulation}
+    />
+
   // LineCharts with multiple Sets
   let LineChart = Indicator.isLoading === true ? 
     <p>Loading</p>  : 
@@ -76,12 +86,14 @@ function App() {
       dataSet={Multiple_DataSets(Indicator.data.Indicators)}
     />
 
-  let OHLCChart = OHLC.isLoading === true ? 
+    // Always bugs when rendering multiple datasets with different State Variables
+    // makes sense cuz the donditional render if statement is only good for one State
+  let OHLCChart = Simulation.isLoading === true ? 
     <p>Loading</p>  : 
     <OHLCPlot 
       dataSet={[
         OHLC_Data_Formater(OHLC.data.OHLC),
-        Multiple_DataSets(Indicator.data.Indicators)[0],
+        // Multiple_DataSets(Indicator.data.Indicators)[0],
         Simulator_Data_Formater(Simulation.data.Simulation)
       ]}
       layoutSet={OHLC_Layout_Formater()}
@@ -98,6 +110,8 @@ function App() {
       {OHLCChart}
       {LineChart}
       {SimulationChart}
+      
+       {DashBoardTest}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 let creator = (SimulatorSet)=>{
-    // console.log(SimulatorSet);
+    console.log(SimulatorSet.AssetPrice);
     let plotlyDataSet = {
         x : [], 
         y : [],
@@ -13,7 +13,9 @@ let creator = (SimulatorSet)=>{
         hovertemplate:{
         }
     }
-
+    SimulatorSet.AssetPrice.forEach(element => {
+        plotlyDataSet.y.push(element)
+    })
     SimulatorSet.Trades.forEach(element => {
         plotlyDataSet.x.push(element.Time)
         plotlyDataSet.text.push(
@@ -23,18 +25,16 @@ let creator = (SimulatorSet)=>{
             plotlyDataSet.y.push(element.Collateral.Amount)
         }
         else if (element.Direction === 'Long'){
-            plotlyDataSet.y.push(element.Collateral.WorthInCash)
-             
+            plotlyDataSet.y.push(element.Collateral.WorthInCash)    
         }
 
         if (element.Collateral.PnL < 0) {
-            console.log(element.Collateral.PnL);
             plotlyDataSet.marker.color.push('red')
         } else if (element.Collateral.PnL > 0){
             plotlyDataSet.marker.color.push('green')
-            console.log(element.Collateral.PnL);
+            
         }
-        console.log(plotlyDataSet.marker.color);
+        
     });
 
     return plotlyDataSet
