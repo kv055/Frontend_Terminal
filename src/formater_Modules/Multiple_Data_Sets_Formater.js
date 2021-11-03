@@ -1,16 +1,6 @@
 let creator = (array)=>{
 
     let plotlyDataSet = []
-   
-    // array.forEach(element => {
-    //     let DataSet ={
-    //         x : element.time, 
-    //         y : element.value,
-    //         mode : 'lines',
-    //         type : 'scatter' 
-    //     }
-    //     plotlyDataSet.push(DataSet)
-    // });
     
     for (let index in array){   
         let DataSet ={

@@ -1,12 +1,14 @@
 let creator = (props)=>{
-    console.log(props.dataSet.Trades);
+    console.log(props.dataSet);
 
     const listTrades = props.dataSet.Trades.map((element) =>
         <li>
             <div style={{
                 color:'red',
-                height: '500px',
-                width: '50px',
+                height: '50%',
+                width: '50%',
+                borderStyle: 'solid',
+                borderWidth: '2px'
                 
             }}>
                 <h1 style={{color:'blue',fontSize: '5%'}}>{element.Time}</h1>
@@ -21,8 +23,16 @@ let creator = (props)=>{
 
     return (
         <div>
-            <ul>
+            <ul> 
+                <div>
+                    <p>Start Cash: {props.dataSet.Cash[0]}</p>
+                    <p>Start Asset: {props.dataSet.AssetAmount[0]}</p>
+                </div>
                 {listTrades}
+                <div>
+                    <p>End Cash: {props.dataSet.Cash.slice(-1)}</p>
+                    <p>End Asset: {props.dataSet.AssetAmount.slice(-1)}</p>
+                </div>
             </ul>
         </div>
     )

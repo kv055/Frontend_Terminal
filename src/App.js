@@ -1,117 +1,76 @@
 import {useState, useEffect} from 'react';
-import DataFetch from './fetch_Modules/DataFetch'
 
+// Data Fetch module
+import DataFetch from './fetch_Modules/DataFetch'
 //DataSet Formater modules
 import OHLC_Data_Formater from './formater_Modules/OHLC_Data_Formater'
 import OHLC_Layout_Formater from './formater_Modules/OHLC_Layout_Formater'
-// import Line_Data_Formater from './formater_Modules/Line_Data_Formater'
 import Simulator_Data_Formater from './formater_Modules/Simulator_Data_Formater'
 import Multiple_DataSets from './formater_Modules/Multiple_Data_Sets_Formater'
-
 //Plot Generator Modules
 import OHLCPlot from './generator_Modules/OHLCPlotGenerator'
-// import LinePlot from './generator_Modules/LinePlotGenerator'
-import BarPlot from './generator_Modules/BarPlotGenerator'
 import MultipleSetsGenerator from './generator_Modules/MultipleDataSetsGenerator'
 // import MultiplePlotsGenerator from './generator_Modules/MultiplePlotsGenerator'
-
 //UI Dashboard Modules
+import AbelianHeader from './visualizer/Abelian_Header'
+import HeaderDataFetcher from './visualizer/HeaderDataFetcher'
 import TradesHistory from './visualizer/TradesHistory'
 
 function App() {
-
-  // Get OHLC Data, formate it for Plotly and write it into a State-Variable
-  //Fetch and save Indicator Data
-  const [Indicator, setIndicator] = useState({
-    isLoading: true
-  })
-
+  // Initialize State Variable
+  const [PlotData, setPlotData] = useState({Loading: true})
+  // Initialize Fetch function
+  let GetPlotData = async () => {
+      let IndicatorFetched = await DataFetch('http://127.0.0.1:5000/Indicators')
+      let OHLCFetched = await DataFetch('http://127.0.0.1:5000/OHLC')
+      let SimulationFetched = await DataFetch('http://127.0.0.1:5000/Simulation')
+    setPlotData({
+      Indicators: IndicatorFetched.Indicators,
+      OHLC: OHLCFetched.OHLC,
+      Simulation: SimulationFetched.Simulation,
+      Loading : false
+    })
+  }
+  // Execute Fetch function and set State 
   useEffect(() => {
-    let asyncRuntime = async () => {
-      let setter = await DataFetch('http://127.0.0.1:5000/Indicators')
-      let newIndicator = {
-        isLoading: false,
-        data: setter
-      }
-      setIndicator(newIndicator)
-    }
-    asyncRuntime()
+    GetPlotData()
   },[])
-
-  //Fetch and save OHLC Data
-  const [OHLC, setOHLC] = useState({
-    isLoading: true
-  })
-  
-  useEffect(() => {
-    let asyncRuntime = async () => {
-      let setter = await DataFetch('http://127.0.0.1:5000/OHLC')
-      let newOHLC = {
-        isLoading: false,
-        data: setter
-      }
-      setOHLC(newOHLC)
-    }
-    asyncRuntime()
-  },[])  
-
-  //Fetch and save Simulator Data
-  const [Simulation, setSimulation] = useState({
-    isLoading: true
-  })
-
-  useEffect(() => {
-    let asyncRuntime = async () => {
-      let setter = await DataFetch('http://127.0.0.1:5000/Simulation')
-      let newSimulaton = {
-        isLoading: false,
-        data: setter
-      }
-      setSimulation(newSimulaton)
-    }
-    asyncRuntime()
-  },[])
-
+  console.log(PlotData);
   // Initialise Dashboard
-  let DashBoardTest = Simulation.isLoading === true ?
+  let DashBoardTest = PlotData.Loading === true ?
     <p>Loading</p> :
     <TradesHistory 
-      dataSet={Simulation.data.Simulation}
+      dataSet={PlotData.Simulation}
     />
-
-  // LineCharts with multiple Sets
-  let LineChart = Indicator.isLoading === true ? 
+  let LineChart = PlotData.Loading === true ? 
     <p>Loading</p>  : 
     <MultipleSetsGenerator 
-      dataSet={Multiple_DataSets(Indicator.data.Indicators)}
+      dataSet={Multiple_DataSets(PlotData.Indicators)}
     />
-
-    // Always bugs when rendering multiple datasets with different State Variables
-    // makes sense cuz the donditional render if statement is only good for one State
-  let OHLCChart = Simulation.isLoading === true ? 
+  let OHLCChart = PlotData.Loading === true ? 
     <p>Loading</p>  : 
     <OHLCPlot 
       dataSet={[
-        OHLC_Data_Formater(OHLC.data.OHLC),
-        // Multiple_DataSets(Indicator.data.Indicators)[0],
-        Simulator_Data_Formater(Simulation.data.Simulation)
+        OHLC_Data_Formater(PlotData.OHLC),
+        Multiple_DataSets(PlotData.Indicators)[0],
+        Simulator_Data_Formater(PlotData.Simulation)
       ]}
       layoutSet={OHLC_Layout_Formater()}
     />
-
-  let SimulationChart = Simulation.isLoading === true ?
+  let SimulationChart = PlotData.Loading === true ?
     <p>Loading</p>  : 
-    <BarPlot 
-      dataSet={[Simulator_Data_Formater(Simulation.data.Simulation)]}
+    <MultipleSetsGenerator 
+      dataSet={[Simulator_Data_Formater(PlotData.Simulation)]}
     />
-
+      
   return (
     <div className="App">
+      {<AbelianHeader />}
+      {<HeaderDataFetcher />}
       {OHLCChart}
       {LineChart}
       {SimulationChart}
-      
-       {DashBoardTest}
+      {DashBoardTest}
     </div>
   );
 }

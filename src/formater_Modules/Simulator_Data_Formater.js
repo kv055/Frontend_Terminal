@@ -1,5 +1,5 @@
 let creator = (SimulatorSet)=>{
-    console.log(SimulatorSet.AssetPrice);
+    console.log(SimulatorSet);
     let plotlyDataSet = {
         x : [], 
         y : [],
