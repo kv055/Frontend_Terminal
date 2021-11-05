@@ -37,7 +37,7 @@ function App() {
   },[])
   console.log(PlotData);
   // Initialise Dashboard
-  let DashBoardTest = PlotData.Loading === true ?
+  let TradesList = PlotData.Loading === true ?
     <p>Loading</p> :
     <TradesHistory 
       dataSet={PlotData.Simulation}
@@ -70,7 +70,7 @@ function App() {
       {OHLCChart}
       {LineChart}
       {SimulationChart}
-      {DashBoardTest}
+      {TradesList}
     </div>
   );
 }

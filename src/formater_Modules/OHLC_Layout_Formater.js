@@ -2,7 +2,8 @@ let creator = ()=>{
     let plotlyLayoutSet = 
         {
             title: 'BTC/USD',
-
+            width: 1900,
+            height: 500,
             xaxis: {
                 autorange: true,
                 rangeselector: {buttons: [

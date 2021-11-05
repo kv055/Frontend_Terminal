@@ -31,13 +31,9 @@ let creator = (SimulatorSet)=>{
         if (element.Collateral.PnL < 0) {
             plotlyDataSet.marker.color.push('red')
         } else if (element.Collateral.PnL > 0){
-            plotlyDataSet.marker.color.push('green')
-            
+            plotlyDataSet.marker.color.push('green')   
         }
-        
     });
-
     return plotlyDataSet
 }
-
 export default creator
