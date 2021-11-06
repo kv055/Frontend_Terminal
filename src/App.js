@@ -43,13 +43,11 @@ function App() {
     <TradesHistory 
       dataSet={PlotData.Simulation}
     />
-    // Thats how far i come
   let LineChart = PlotData.Loading === true ? 
     <p>Loading</p>  : 
-    console.log([StrategyFormater(PlotData.Indicators)]);
-    // <MultipleSetsGenerator 
-    //   dataSet={StrategyFormater(PlotData.Indicators)}
-    // />
+    <MultipleSetsGenerator 
+      dataSet={[StrategyFormater(PlotData.Indicators)]}
+    />
   let OHLCChart = PlotData.Loading === true ? 
     <p>Loading</p>  : 
     <OHLCPlot 
@@ -71,7 +69,7 @@ function App() {
       {<AbelianHeader />}
       {<HeaderDataFetcher />}
       {OHLCChart}
-      {/* {LineChart} */}
+      {LineChart}
       {SimulationChart}
       {TradesList}
     </div>

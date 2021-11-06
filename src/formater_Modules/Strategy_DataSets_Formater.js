@@ -1,22 +1,15 @@
 let creator = (array)=>{
     console.log(array);
 
-        let DataSetMax ={
+        let DataSetCrossings ={
             x : array.Time, 
-            y : array.MAMax.Value,
-            mode : 'lines',
-            type : 'scatter',
-            name: 'Indicator',
-        }
-        let DataSetMin ={
-            x : array.Time, 
-            y : array.MAMin.Value,
-            mode : 'lines',
+            y : array.AssetValue,
+            mode : 'marker',
             type : 'scatter',
             name: 'Indicator',
         }
 
-    console.log([DataSetMax,DataSetMin]);
-    return [DataSetMax,DataSetMin]
+
+    return DataSetCrossings
 }
 export default creator
