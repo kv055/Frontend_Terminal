@@ -7,6 +7,7 @@ import OHLC_Data_Formater from './formater_Modules/OHLC_Data_Formater'
 import OHLC_Layout_Formater from './formater_Modules/OHLC_Layout_Formater'
 import Simulator_Data_Formater from './formater_Modules/Simulator_Data_Formater'
 import Multiple_DataSets from './formater_Modules/Multiple_Data_Sets_Formater'
+import StrategyFormater from './formater_Modules/Strategy_DataSets_Formater'
 //Plot Generator Modules
 import OHLCPlot from './generator_Modules/OHLCPlotGenerator'
 import MultipleSetsGenerator from './generator_Modules/MultipleDataSetsGenerator'
@@ -42,11 +43,13 @@ function App() {
     <TradesHistory 
       dataSet={PlotData.Simulation}
     />
+    // Thats how far i come
   let LineChart = PlotData.Loading === true ? 
     <p>Loading</p>  : 
-    <MultipleSetsGenerator 
-      dataSet={Multiple_DataSets(PlotData.Indicators)}
-    />
+    console.log([StrategyFormater(PlotData.Indicators)]);
+    // <MultipleSetsGenerator 
+    //   dataSet={StrategyFormater(PlotData.Indicators)}
+    // />
   let OHLCChart = PlotData.Loading === true ? 
     <p>Loading</p>  : 
     <OHLCPlot 
@@ -68,7 +71,7 @@ function App() {
       {<AbelianHeader />}
       {<HeaderDataFetcher />}
       {OHLCChart}
-      {LineChart}
+      {/* {LineChart} */}
       {SimulationChart}
       {TradesList}
     </div>
