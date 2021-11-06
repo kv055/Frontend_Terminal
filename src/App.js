@@ -14,6 +14,8 @@ import MultipleSetsGenerator from './generator_Modules/MultipleDataSetsGenerator
 //UI Dashboard Modules
 import AbelianHeader from './visualizer/Abelian_Header'
 import HeaderDataFetcher from './visualizer/HeaderDataFetcher'
+import HeaderStrategyIndicator from './visualizer/HeaderStrategyIndicatorFetcher'
+import HeaderSimulationFetcher from './visualizer/HeaderSimulationFetcher'
 import TradesHistory from './visualizer/TradesHistory'
 
 function App() {
@@ -68,7 +70,9 @@ function App() {
       {<AbelianHeader />}
       {<HeaderDataFetcher />}
       {OHLCChart}
+      <HeaderStrategyIndicator />
       {LineChart}
+      <HeaderSimulationFetcher />
       {SimulationChart}
       {TradesList}
     </div>
