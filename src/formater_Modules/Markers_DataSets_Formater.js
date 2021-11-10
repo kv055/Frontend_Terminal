@@ -4,7 +4,7 @@ let creator = (array)=>{
         let DataSetCrossings ={
             x : array.Time, 
             y : array.AssetValue,
-            mode : 'marker',
+            mode : 'markers',
             type : 'scatter',
             name: 'Indicator',
         }

@@ -1,5 +1,5 @@
 let creator = (props)=>{
-    console.log(props.dataSet);
+    // console.log(props.dataSet);
 
     const listTrades = props.dataSet.Trades.map((element) =>
         <li>
