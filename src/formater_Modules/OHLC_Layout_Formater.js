@@ -1,4 +1,4 @@
-let creator = ()=>{
+let creator = (OHLCSet)=>{
     let plotlyLayoutSet = 
         {
             title: 'BTC/USD',
@@ -52,7 +52,7 @@ let creator = ()=>{
                     },
                     {step: 'all'}
                     ]},
-                rangeslider: {range: ['2019-02-17', '2019-02-16']},
+                rangeslider: {range: [OHLCSet[0][0], OHLCSet[OHLCSet.length - 1][0]]},
                 type: 'date'
             },
             
@@ -62,8 +62,9 @@ let creator = ()=>{
                 fixedrange: false
             }
         }
-
+        console.log(plotlyLayoutSet);
     return plotlyLayoutSet
+
 }
 
 export default creator

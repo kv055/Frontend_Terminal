@@ -24,7 +24,7 @@ let creator = (OHLCSet)=>{
         plotlyDataSet.low.push(candleStick[3])
         plotlyDataSet.close.push(candleStick[4]) 
     })
-    // console.log(plotlyDataSet);
+    console.log(plotlyDataSet);
     return plotlyDataSet
 }
 

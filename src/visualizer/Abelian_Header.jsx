@@ -5,7 +5,12 @@ let Header = () => {
             borderWidth: '2px'
         }}>
             <h1 style={{textAlign: 'left'}}>Abelian Capital</h1>
-            <p style={{textAlign: 'right'}}>Server Info(Choose different Backends)</p>
+            
+            <ul style={{textAlign: 'right'}}>
+                <li>Server Info:</li>
+                <li>Abelian BackTesting</li>
+                <li>Abelian LiveTesting</li>
+            </ul>
         </div>
     )
 }

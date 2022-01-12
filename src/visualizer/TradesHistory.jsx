@@ -12,11 +12,12 @@ let creator = (props)=>{
                 float: 'right'
                 
             }}>
-                <h1 style={{color:'blue',fontSize: '5%'}}>{element.Time}</h1>
-                <p>{element.Collateral.PnL}</p>
-                <p>{element.Direction}</p>
-                <p>{element.Collateral.Type}</p>
-                <p>{element.Collateral.Amount}</p>
+                {/* Change Here for updated Trades Object */}
+                <p>Opened: {element.Open}</p>
+                <p>Direction: {element.Direction}</p>
+                <p>PnL: {element.PnL}</p>
+                <p>From: {element.From}</p>
+                <p>To: {element.To}</p>
                 
             </div>
         </li>
