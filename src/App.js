@@ -27,16 +27,16 @@ function App() {
   const [PlotData, setPlotData] = useState({Loading: true})
   // Initialize Fetch function
   let GetPlotData = async () => {
-      let DataFetcherModule = await DataFetch('http://localhost:5001/DataFetcher')
-      let IndicatorFetched = await DataFetch('http://127.0.0.1:5001/Indicators')
-      let OHLCFetched = await DataFetch('http://127.0.0.1:5001/OHLC')
-      let SimulationFetched = await DataFetch('http://127.0.0.1:5000/Simulation')
+      let DataFetcherModule = await DataFetch('http://localhost:5001/DataSources')
+      // let IndicatorFetched = await DataFetch('http://127.0.0.1:5001/Indicators')
+      // let OHLCFetched = await DataFetch('http://127.0.0.1:5001/OHLC')
+      // let SimulationFetched = await DataFetch('http://127.0.0.1:5000/Simulation')
     setPlotData({
       HeaderDataFetcher: DataFetcherModule,
-      Indicators: IndicatorFetched.Indicators,
-      OHLC: OHLCFetched.OHLC,
-      Simulation: SimulationFetched.Simulation,
-      Loading : false
+      // Indicators: IndicatorFetched.Indicators,
+      // OHLC: OHLCFetched.OHLC,
+      // Simulation: SimulationFetched.Simulation,
+      // Loading : false
     })
   }
   // Execute Fetch function and set State 
@@ -62,25 +62,25 @@ console.log(PlotData);
   //     layoutSet={Strategy_Indicator_Layout()}
   //   />
 
-  let OHLCChart = PlotData.Loading === true ? 
-    <p>Loading</p>  : 
-    <Plot 
-      dataSet={[
-        OHLC_Data_Formater(PlotData.OHLC),
-        Multiple_DataSets(PlotData.Indicators)[0],
-        Multiple_DataSets(PlotData.Indicators)[1],
-        Multiple_DataSets(PlotData.Indicators)[2],
-        Simulator_Data_Formater(PlotData.Simulation)
-      ]}
-      layoutSet={OHLC_Layout(PlotData.OHLC)}
-    />
+  // let OHLCChart = PlotData.Loading === true ? 
+  //   <p>Loading</p>  : 
+  //   <Plot 
+  //     dataSet={[
+  //       OHLC_Data_Formater(PlotData.OHLC),
+  //       Multiple_DataSets(PlotData.Indicators)[0],
+  //       Multiple_DataSets(PlotData.Indicators)[1],
+  //       Multiple_DataSets(PlotData.Indicators)[2],
+  //       Simulator_Data_Formater(PlotData.Simulation)
+  //     ]}
+  //     layoutSet={OHLC_Layout(PlotData.OHLC)}
+  //   />
   
-  // Initialise Dashboard
-  let TradesList = PlotData.Loading === true ?
-    <p>Loading</p> :
-      <TradesHistory 
-        dataSet={PlotData.Simulation}
-      />
+  // // Initialise Dashboard
+  // let TradesList = PlotData.Loading === true ?
+  //   <p>Loading</p> :
+  //     <TradesHistory 
+  //       dataSet={PlotData.Simulation}
+  //     />
     // let SimulationChart = PlotData.Loading === true ?
   //   <p>Loading</p>  : 
   //   <Plot 
@@ -92,12 +92,12 @@ console.log(PlotData);
     <div className="App">
       {<AbelianHeader />}
       {DataFetcher}
-      {OHLCChart}
+      {/* {OHLCChart} */}
       {/* <HeaderStrategyIndicator />
       {LineChart}
       <HeaderSimulationFetcher />
       {SimulationChart} */}
-      {TradesList}
+      {/* {TradesList} */}
     </div>
   );
 }
