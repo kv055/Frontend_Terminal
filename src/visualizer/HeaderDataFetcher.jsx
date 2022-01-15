@@ -1,45 +1,57 @@
 import {useState, useEffect} from 'react';
+import POST from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchPOST.js'
+import GET from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchGET.js'
 // Execute Fetch function and set State 
 
 let DataFetcherHeader = (props) => {
    //Neue Position erstelle und zurück schicken
    const [HeaderData, setHeaderData] = useState({Loading: true})
-   const [UserSelection, setUserSelection] = useState({Asset: 'Select Exchange first', CandleSize: 'Select Asset first'})
+   const [UserSelection, setUserSelection] = useState({ 
+        exchange: null,
+        assetPair:null,
+        candleSize:null
+    })
+//     let GetPlotData = async () => {
+//         let DataFetcherModule = await DataFetch('http://localhost:5001/DataSources')
+//         // let IndicatorFetched = await DataFetch('http://127.0.0.1:5001/Indicators')
+//         // let OHLCFetched = await DataFetch('http://127.0.0.1:5001/OHLC')
+//         // let SimulationFetched = await DataFetch('http://127.0.0.1:5000/Simulation')
+//       setPlotData({
+//         HeaderDataFetcher: DataFetcherModule,
 
+//         // Loading : false
+//       })
+//     }
 //    useEffect(() => {
-//     GetHeaderData()
+//     // GetHeaderData()
 //   },[])
   
-   let send = async (choice) => {
-    
-     const options = {
-       method: 'POST',
-       headers: {
-       'Content-Type': 'application/json'
-        },
-       body: JSON.stringify({
-        "DataSource": choice
-        })
-    };
-  
-    let lol = await fetch('http://localhost:5001/AssetPairs', options)
-    let lel = await lol.json()
+   let fetchAssetList = async(selectedExchange) => {
+    let listofAssets = await POST('http://localhost:5001/AssetPairs',{"DataSource": selectedExchange})
     setHeaderData({
-        assetPairs: lel.AssetPairs.assetPairs,
-        candleSizes: lel.AssetPairs.candleSize,
+        assetPairs: listofAssets.AssetPairs.assetPairs,
+        candleSizes: listofAssets.AssetPairs.candleSize,
         Loading : false
     })
-     // Set Header Data Here
-
+    setUserSelection({ 
+        exchange: selectedExchange.mic,
+        assetPair:null,
+        candleSize:null
+    })
    };
+
+   let fetchOHLCdata = async(selectedAssetNCandlesize) => {
+    let ohlc = await POST('http://localhost:5001/OHLC',selectedAssetNCandlesize)
+    console.log(ohlc);
+   } 
    
     const listDataSources = props.dataSet.Metadata.map((element) => 
-        <p onClick={() => send(element)}>{element.name}</p>
+        <p onClick={() => fetchAssetList(element)}>{element.name}</p>
     )
-    
+
     let listAssetPairs = (props)=>{
         const AssetPairs = props.assetPairs.map((element) => 
-            <p onClick={() => setUserSelection({Asset: element})}>{element}</p>
+            <p onClick={() => setUserSelection({...UserSelection,'assetPair': element})}>{element}</p>
         )
         return AssetPairs
     }
@@ -49,8 +61,8 @@ let DataFetcherHeader = (props) => {
         <p>{listAssetPairs(HeaderData)}</p>
  
     let listCandleSizes = (props)=>{
-        const CandleSizes = props.candleSizes.map((element) => 
-            <p onClick={() => setUserSelection({CandleSize: element})}>{element}</p>
+        const CandleSizes = props.candleSizes.map((element) =>
+        <p onClick={() => setUserSelection({...UserSelection, 'candleSize':element})}>{element}</p> 
         )
         return CandleSizes
     }
@@ -60,7 +72,10 @@ let DataFetcherHeader = (props) => {
         <p>{listCandleSizes(HeaderData)}</p>
 
 
-    console.log(UserSelection);
+    if(UserSelection.assetPair != null && UserSelection.candleSize != null){
+        console.log(UserSelection);
+        fetchOHLCdata({'ohlcConfig':UserSelection})
+    }
 
     return(
         <div style={{
@@ -86,5 +101,4 @@ let DataFetcherHeader = (props) => {
         </div>
     )
 }
-
 export default DataFetcherHeader

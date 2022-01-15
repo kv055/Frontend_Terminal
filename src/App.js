@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 // Data Fetch module
-import DataFetch from './fetch_Modules/DataFetch'
+import DataFetch from './fetch_Modules/DataFetchGET'
 //DataSet Formater modules
 import OHLC_Data_Formater from './formater_Modules/OHLC_Data_Formater'
 import OHLC_Layout from './formater_Modules/OHLC_Layout_Formater'
