@@ -1,7 +1,7 @@
 let creator = (OHLCSet)=>{
     let plotlyLayoutSet = 
         {
-            title: 'BTC/USD',
+            title: OHLCSet.config.assetPair,
             width: 1900,
             height: 500,
             margin: {
@@ -52,7 +52,7 @@ let creator = (OHLCSet)=>{
                     },
                     {step: 'all'}
                     ]},
-                rangeslider: {range: [OHLCSet[0][0], OHLCSet[OHLCSet.length - 1][0]]},
+                rangeslider: {range: [OHLCSet.OHLC[0][0], OHLCSet.OHLC[OHLCSet.OHLC.length - 1][0]]},
                 type: 'date'
             },
             

@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 // Data Fetch module
-import DataFetch from './fetch_Modules/DataFetchGET'
+import POST from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchPOST.js'
+import GET from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchGET.js'
 //DataSet Formater modules
 import OHLC_Data_Formater from './formater_Modules/OHLC_Data_Formater'
 import OHLC_Layout from './formater_Modules/OHLC_Layout_Formater'
@@ -25,30 +26,55 @@ import TradesHistory from './visualizer/TradesHistory'
 function App() {
   // Initialize State Variable
   const [PlotData, setPlotData] = useState({Loading: true})
-  // Initialize Fetch function
-  let GetPlotData = async () => {
-      let DataFetcherModule = await DataFetch('http://localhost:5001/DataSources')
-      // let IndicatorFetched = await DataFetch('http://127.0.0.1:5001/Indicators')
-      // let OHLCFetched = await DataFetch('http://127.0.0.1:5001/OHLC')
-      // let SimulationFetched = await DataFetch('http://127.0.0.1:5000/Simulation')
-    setPlotData({
-      HeaderDataFetcher: DataFetcherModule,
-      // Indicators: IndicatorFetched.Indicators,
-      // OHLC: OHLCFetched.OHLC,
-      // Simulation: SimulationFetched.Simulation,
-      // Loading : false
+  const [fetchOHLCconfig, setfetchOHLCconfig] = useState({Loading: true})
+ 
+  // Then wait till we get the necesary Data from the HeaderDataFetcher Component to start 
+  // fetching OHLC Data (recieveOHLCconfig is a callback function that gets the data out of the Component)
+  let recieveOHLCconfig = (childData) =>{
+    console.log(childData);
+    setfetchOHLCconfig({
+      ohlcConfig: childData.ohlcConfig,
+      Loading : false
     })
   }
-  // Execute Fetch function and set State 
-  useEffect(() => {
-    GetPlotData()
-  },[])
+  
+  // Performing the POST request to fetch OHLC data and writing it into the PlotData state
+  const fetchOHLC = async () =>{
+    let ohlcFetched = await POST('http://127.0.0.1:5001/OHLC', fetchOHLCconfig)
+     setPlotData({
+       OHLC: ohlcFetched.OHLC,
+       config: ohlcFetched.config,
+       Loading : false
+     })
+     setfetchOHLCconfig({Loading : true})
+     console.log(PlotData);
+  }
 
-console.log(PlotData);
+  if(fetchOHLCconfig.Loading === false){
+    console.log(fetchOHLCconfig);
+    fetchOHLC()
+  }
+  
+  
+  
+  // let GetPlotData = async () => {
+  //     // let IndicatorFetched = await DataFetch('http://127.0.0.1:5001/Indicators')
 
-  let DataFetcher = PlotData.Loading === true ? 
-    <p>Loading</p>  : 
-    <HeaderDataFetcher dataSet={PlotData.HeaderDataFetcher} />
+     
+  //   setPlotData({
+  //     // Indicators: IndicatorFetched.Indicators,
+  //     // OHLC: OHLCFetched.OHLC,
+  //     // Simulation: SimulationFetched.Simulation,
+      
+  //   })
+  // }
+  // // Execute Fetch function and set State 
+  // useEffect(() => {
+  //   GetPlotData()
+  // },[])
+
+
+
 
   // Initialise Plot Variables
   // let LineChart = PlotData.Loading === true ? 
@@ -62,18 +88,18 @@ console.log(PlotData);
   //     layoutSet={Strategy_Indicator_Layout()}
   //   />
 
-  // let OHLCChart = PlotData.Loading === true ? 
-  //   <p>Loading</p>  : 
-  //   <Plot 
-  //     dataSet={[
-  //       OHLC_Data_Formater(PlotData.OHLC),
-  //       Multiple_DataSets(PlotData.Indicators)[0],
-  //       Multiple_DataSets(PlotData.Indicators)[1],
-  //       Multiple_DataSets(PlotData.Indicators)[2],
-  //       Simulator_Data_Formater(PlotData.Simulation)
-  //     ]}
-  //     layoutSet={OHLC_Layout(PlotData.OHLC)}
-  //   />
+  let OHLCChart = PlotData.Loading === true ? 
+    <p>Loading</p>  : 
+    <Plot 
+      dataSet={[
+        OHLC_Data_Formater(PlotData.OHLC),
+        // Multiple_DataSets(PlotData.Indicators)[0],
+        // Multiple_DataSets(PlotData.Indicators)[1],
+        // Multiple_DataSets(PlotData.Indicators)[2],
+        // Simulator_Data_Formater(PlotData.Simulation)
+      ]}
+      layoutSet={OHLC_Layout(PlotData)}
+    />
   
   // // Initialise Dashboard
   // let TradesList = PlotData.Loading === true ?
@@ -91,8 +117,8 @@ console.log(PlotData);
   return (
     <div className="App">
       {<AbelianHeader />}
-      {DataFetcher}
-      {/* {OHLCChart} */}
+      {<HeaderDataFetcher childData={recieveOHLCconfig} />}
+      {OHLCChart}
       {/* <HeaderStrategyIndicator />
       {LineChart}
       <HeaderSimulationFetcher />

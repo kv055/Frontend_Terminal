@@ -1,34 +1,33 @@
 import {useState, useEffect} from 'react';
 import POST from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchPOST.js'
 import GET from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchGET.js'
-// Execute Fetch function and set State 
 
 let DataFetcherHeader = (props) => {
-   //Neue Position erstelle und zurück schicken
-   const [HeaderData, setHeaderData] = useState({Loading: true})
+
+   const [HeaderData, setHeaderData] = useState({Loading: true, initialLoading : true})
    const [UserSelection, setUserSelection] = useState({ 
         exchange: null,
         assetPair:null,
         candleSize:null
     })
-//     let GetPlotData = async () => {
-//         let DataFetcherModule = await DataFetch('http://localhost:5001/DataSources')
-//         // let IndicatorFetched = await DataFetch('http://127.0.0.1:5001/Indicators')
-//         // let OHLCFetched = await DataFetch('http://127.0.0.1:5001/OHLC')
-//         // let SimulationFetched = await DataFetch('http://127.0.0.1:5000/Simulation')
-//       setPlotData({
-//         HeaderDataFetcher: DataFetcherModule,
 
-//         // Loading : false
-//       })
-//     }
-//    useEffect(() => {
-//     // GetHeaderData()
-//   },[])
-  
+    let fetchDataSources = async()=>{
+        let listofDatasources = await GET('http://localhost:5001/DataSources')
+        setHeaderData({
+            dataSources: listofDatasources.Metadata,
+            Loading: true,
+            initialLoading : false
+        })
+    }
+
+    useEffect(() => {
+        fetchDataSources()
+      },[])
+    
    let fetchAssetList = async(selectedExchange) => {
     let listofAssets = await POST('http://localhost:5001/AssetPairs',{"DataSource": selectedExchange})
     setHeaderData({
+        ...HeaderData,
         assetPairs: listofAssets.AssetPairs.assetPairs,
         candleSizes: listofAssets.AssetPairs.candleSize,
         Loading : false
@@ -38,16 +37,33 @@ let DataFetcherHeader = (props) => {
         assetPair:null,
         candleSize:null
     })
-   };
+   }
 
-   let fetchOHLCdata = async(selectedAssetNCandlesize) => {
-    let ohlc = await POST('http://localhost:5001/OHLC',selectedAssetNCandlesize)
-    console.log(ohlc);
-   } 
+//    let fetchOHLCdata = async(selectedAssetNCandlesize) => {
+//     let fetchedohlc = await POST('http://localhost:5001/OHLC',selectedAssetNCandlesize)
+//     props.childData({'ohlcConfig':UserSelection})
+//     setHeaderData({
+//         ...HeaderData,
+//         ohlc: fetchedohlc.OHLC
+//     })
+//     setUserSelection({ 
+//         exchange: null,
+//         assetPair:null,
+//         candleSize:null,
+//         selection: fetchedohlc.config
+//     })
+//    } 
    
-    const listDataSources = props.dataSet.Metadata.map((element) => 
-        <p onClick={() => fetchAssetList(element)}>{element.name}</p>
-    )
+    let listDataSources = (props) => {
+        const DataSources = props.dataSources.map((element) => 
+            <p onClick={() => fetchAssetList(element)}>{element.name}</p>
+        )
+        return DataSources
+    }   
+
+    const DataSources = HeaderData.initialLoading === true ?
+        <p>loading</p> :
+        <p>{listDataSources(HeaderData)}</p>
 
     let listAssetPairs = (props)=>{
         const AssetPairs = props.assetPairs.map((element) => 
@@ -73,10 +89,14 @@ let DataFetcherHeader = (props) => {
 
 
     if(UserSelection.assetPair != null && UserSelection.candleSize != null){
-        console.log(UserSelection);
-        fetchOHLCdata({'ohlcConfig':UserSelection})
+        props.childData({'ohlcConfig':UserSelection})
+        setUserSelection({ 
+            exchange: null,
+            assetPair:null,
+            candleSize:null
+        })
     }
-
+    console.log(HeaderData);
     return(
         <div style={{
             borderBottom: 'solid',
@@ -86,7 +106,7 @@ let DataFetcherHeader = (props) => {
             <ul>
                 <li style={{textAlign: 'left'}}>
                     <p>Data-Source:</p>
-                    <div>{listDataSources}</div>
+                    <div>{DataSources}</div>
                 </li>
                 <li style={{textAlign: 'center'}}>
                     <p>Asset-Pair:</p>
