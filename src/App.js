@@ -101,7 +101,7 @@ function App() {
         Multiple_DataSets(OHLCData.datasetsToBeRenderedOnPlot)[0],
         Multiple_DataSets(OHLCData.datasetsToBeRenderedOnPlot)[1],
         Multiple_DataSets(OHLCData.datasetsToBeRenderedOnPlot)[2],
-        // Simulator_Data_Formater(PlotData.Simulation)
+        Simulator_Data_Formater(OHLCData.Simulation)
       ]}
       layoutSet={OHLCData.Layout}
     />
