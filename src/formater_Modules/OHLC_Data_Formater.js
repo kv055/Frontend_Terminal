@@ -1,5 +1,5 @@
 let creator = (OHLCSet)=>{
-    
+    console.log(OHLCSet);
     let plotlyDataSet = {
         //X-Axis
         x: [],
@@ -24,7 +24,6 @@ let creator = (OHLCSet)=>{
         plotlyDataSet.low.push(candleStick[3])
         plotlyDataSet.close.push(candleStick[4]) 
     })
-    console.log(plotlyDataSet);
     return plotlyDataSet
 }
 

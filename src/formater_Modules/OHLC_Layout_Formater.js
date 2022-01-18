@@ -1,7 +1,7 @@
-let creator = (OHLCSet)=>{
+let creator = (OHLCSet, config)=>{
     let plotlyLayoutSet = 
         {
-            title: OHLCSet.config.assetPair,
+            title: config.assetPair,
             width: 1900,
             height: 500,
             margin: {
@@ -52,7 +52,7 @@ let creator = (OHLCSet)=>{
                     },
                     {step: 'all'}
                     ]},
-                rangeslider: {range: [OHLCSet.OHLC[0][0], OHLCSet.OHLC[OHLCSet.OHLC.length - 1][0]]},
+                rangeslider: {range: [OHLCSet[0][0], OHLCSet[OHLCSet.length - 1][0]]},
                 type: 'date'
             },
             
@@ -62,7 +62,6 @@ let creator = (OHLCSet)=>{
                 fixedrange: false
             }
         }
-        console.log(plotlyLayoutSet);
     return plotlyLayoutSet
 
 }

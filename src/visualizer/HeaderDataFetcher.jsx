@@ -96,7 +96,7 @@ let DataFetcherHeader = (props) => {
             candleSize:null
         })
     }
-    console.log(HeaderData);
+    
     return(
         <div style={{
             borderBottom: 'solid',
