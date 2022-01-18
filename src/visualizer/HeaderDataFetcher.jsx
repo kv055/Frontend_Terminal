@@ -1,6 +1,10 @@
 import {useState, useEffect} from 'react';
+import {Alert, Container, Dropdown, DropdownButton, Col, Row } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 import POST from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchPOST.js'
 import GET from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchGET.js'
+import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 
 let DataFetcherHeader = (props) => {
 
@@ -55,8 +59,8 @@ let DataFetcherHeader = (props) => {
 //    } 
    
     let listDataSources = (props) => {
-        const DataSources = props.dataSources.map((element) => 
-            <p onClick={() => fetchAssetList(element)}>{element.name}</p>
+        const DataSources = props.dataSources.map((element) =>  
+            <Dropdown.Item onClick={() => fetchAssetList(element)}>{element.name}</Dropdown.Item>
         )
         return DataSources
     }   
@@ -67,7 +71,7 @@ let DataFetcherHeader = (props) => {
 
     let listAssetPairs = (props)=>{
         const AssetPairs = props.assetPairs.map((element) => 
-            <p onClick={() => setUserSelection({...UserSelection,'assetPair': element})}>{element}</p>
+        <Dropdown.Item onClick={() => setUserSelection({...UserSelection,'assetPair': element})}>{element}</Dropdown.Item>
         )
         return AssetPairs
     }
@@ -78,7 +82,7 @@ let DataFetcherHeader = (props) => {
  
     let listCandleSizes = (props)=>{
         const CandleSizes = props.candleSizes.map((element) =>
-        <p onClick={() => setUserSelection({...UserSelection, 'candleSize':element})}>{element}</p> 
+        <Dropdown.Item onClick={() => setUserSelection({...UserSelection, 'candleSize':element})}>{element}</Dropdown.Item> 
         )
         return CandleSizes
     }
@@ -98,27 +102,45 @@ let DataFetcherHeader = (props) => {
     }
     
     return(
-        <div style={{
-            borderBottom: 'solid',
-            borderWidth: '2px'
-        }}>
-            <h2 style={{}}>Data Fetcher</h2>
-            <ul>
-                <li style={{textAlign: 'left'}}>
-                    <p>Data-Source:</p>
-                    <div>{DataSources}</div>
-                </li>
-                <li style={{textAlign: 'center'}}>
-                    <p>Asset-Pair:</p>
-                    <div>{AssetPairs}</div>
-                </li>
-                <li style={{textAlign: 'right'}}>
-                    <p>Candlesize Timeframe:</p>
-                    <div>{CandleSizes}</div>
-                </li>
-            </ul>
-            
-        </div>
+        <Alert variant="dark">
+            <Container>
+            {/* <div style={{
+                borderBottom: 'solid',
+                borderWidth: '2px'
+            }}> */}
+                {/* <Row>
+                    <Col>
+                        <h2>Data Fetcher</h2>
+                    </Col>
+                </Row> */}
+                <Row>
+                
+                    <Col>
+                        <DropdownButton variant="dark" id="dropdown-item-button" title={UserSelection.exchange}>
+                            {DataSources}
+                        </DropdownButton>
+                    </Col>
+                    
+                
+                    <Col>
+                        <DropdownButton variant="dark" id="dropdown-item-button" title={UserSelection.assetPair}>
+                            {AssetPairs}
+                        </DropdownButton>
+                    </Col>
+                    
+                
+                    <Col>
+                        <DropdownButton variant="dark" id="dropdown-item-button" title={UserSelection.candleSize}>
+                            {CandleSizes}
+                        </DropdownButton>
+                    </Col>
+                    
+                </Row>
+                
+                
+            {/* </div> */}
+            </Container>
+        </Alert>
     )
 }
 export default DataFetcherHeader

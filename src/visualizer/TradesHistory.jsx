@@ -1,43 +1,47 @@
+import {Alert, Container,ListGroup, Accordion, Col, Row } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 let creator = (props)=>{
     // console.log(props.dataSet);
 
     const listTrades = props.dataSet.Trades.map((element) =>
-        <li>
-            <div style={{
-                color:'red',
-                height: '50%',
-                width: '50%',
-                borderStyle: 'solid',
-                borderWidth: '2px',
-                float: 'right'
-                
-            }}>
-                {/* Change Here for updated Trades Object */}
-                <p>Opened: {element.Open}</p>
-                <p>Direction: {element.Direction}</p>
-                <p>PnL: {element.PnL}</p>
-                <p>From: {element.From}</p>
-                <p>To: {element.To}</p>
-                
-            </div>
-        </li>
+        
+            <Accordion.Item eventKey="0">
+                <Accordion.Header>Opened: {element.Open}</Accordion.Header>
+                    <Accordion.Body>
+                        <ListGroup>
+                            <ListGroup.Item>Direction: {element.Direction}</ListGroup.Item>
+                            <ListGroup.Item>PnL: {element.PnL}</ListGroup.Item>
+                            <ListGroup.Item>From: {element.From}</ListGroup.Item>
+                            <ListGroup.Item>To: {element.To}</ListGroup.Item>
+                        </ListGroup>
+                    </Accordion.Body>
+            </Accordion.Item>
     );
 
     return (
-        <div>
-            <ul> 
-                <div style={{float: 'left'}}>
-                    <p>Start Cash: {props.dataSet.Cash[0]}</p>
-                    <p>Start Asset: {props.dataSet.AssetAmount[0]}</p>
-                    <p>End Cash: {props.dataSet.Cash.slice(-1)}</p>
-                    <p>End Asset: {props.dataSet.AssetAmount.slice(-1)}</p>
-                </div>
-                
-                {listTrades}
-           
-            </ul>
-        </div>
+        <Alert variant="dark">
+        <Container>
+            <Row>
+                <Col>
+                    <ListGroup>
+                        <ListGroup.Item>Start Cash: {props.dataSet.Cash[0]}</ListGroup.Item>
+                        <ListGroup.Item>Start Asset: {props.dataSet.AssetAmount[0]}</ListGroup.Item>
+                        <ListGroup.Item>End Cash: {props.dataSet.Cash.slice(-1)}</ListGroup.Item>
+                        <ListGroup.Item>End Asset: {props.dataSet.AssetAmount.slice(-1)}</ListGroup.Item>
+                    </ListGroup>
+                </Col>
+                <Col>
+                    <Accordion defaultActiveKey="0">
+                        {/* <Accordion.Header>Trades History</Accordion.Header> */}
+                        {listTrades}
+                    </Accordion>
+                </Col>
+            </Row>
+        </Container>
+        </Alert>
     )
 }
 
 export default creator
+

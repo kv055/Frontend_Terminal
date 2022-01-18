@@ -1,4 +1,7 @@
 import {useState, useEffect} from 'react';
+import { Container } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 // Data Fetch module
 import POST from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchPOST.js'
 import GET from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchGET.js'
@@ -94,7 +97,7 @@ function App() {
   // }
 
   let OHLCChart = OHLCData.componentReadyToRender === false ? 
-    <p>Loading</p>  : 
+    <p>Loading Chart</p>  : 
     <Plot 
       dataSet={[
         OHLCData.OHLC,
@@ -108,7 +111,7 @@ function App() {
   
   // Initialise Dashboard
   let TradesList = OHLCData.componentReadyToRender === false ?
-    <p>Loading</p> :
+    <p>Loading Simulation</p> :
       <TradesHistory 
         dataSet={OHLCData.Simulation}
       />
