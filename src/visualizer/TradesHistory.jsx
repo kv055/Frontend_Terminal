@@ -2,11 +2,11 @@ import {Alert, Container,ListGroup, Accordion, Col, Row } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 let creator = (props)=>{
-    // console.log(props.dataSet);
+    console.log(props.dataSet);
 
     const listTrades = props.dataSet.Trades.map((element) =>
         
-            <Accordion.Item eventKey="0">
+            <Accordion.Item eventKey="0" key={element.Open.toString()}>
                 <Accordion.Header>Opened: {element.Open}</Accordion.Header>
                     <Accordion.Body>
                         <ListGroup>
@@ -25,10 +25,12 @@ let creator = (props)=>{
             <Row>
                 <Col>
                     <ListGroup>
+                        <ListGroup.Item>First Trade: {props.dataSet.Trades[0].Open}</ListGroup.Item>
                         <ListGroup.Item>Start Cash: {props.dataSet.Cash[0]}</ListGroup.Item>
                         <ListGroup.Item>Start Asset: {props.dataSet.AssetAmount[0]}</ListGroup.Item>
                         <ListGroup.Item>End Cash: {props.dataSet.Cash.slice(-1)}</ListGroup.Item>
                         <ListGroup.Item>End Asset: {props.dataSet.AssetAmount.slice(-1)}</ListGroup.Item>
+                        <ListGroup.Item>Last Trade: {props.dataSet.Trades.slice(-1)[0].Open}</ListGroup.Item>
                     </ListGroup>
                 </Col>
                 <Col>

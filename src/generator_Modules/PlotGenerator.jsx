@@ -1,11 +1,9 @@
 import Plot from 'react-plotly.js';
+// import { Container,Col, Row } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const Generator = (props) => {
-    return(
-        <div style={{
-            borderStyle: 'solid',
-            borderWidth: '2px'
-        }}>
+    return(    
             <Plot 
                 data={props.dataSet}
                 layout={props.layoutSet}
@@ -14,7 +12,6 @@ const Generator = (props) => {
                     scrollZoom: true
                 }}
             />
-        </div>
     )
 }
 export default Generator

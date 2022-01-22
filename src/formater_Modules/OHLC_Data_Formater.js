@@ -1,5 +1,5 @@
 let creator = (OHLCSet)=>{
-    console.log(OHLCSet);
+    
     let plotlyDataSet = {
         //X-Axis
         x: [],

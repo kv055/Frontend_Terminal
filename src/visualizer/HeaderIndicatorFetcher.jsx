@@ -5,42 +5,42 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import POST from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchPOST.js'
 import GET from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchGET.js'
 
-let SimulationFetcherHeader = () => {
+let IndicatorFetcherHeader = () => {
     const [HeaderData, setHeaderData] = useState({Loading: true})
     // const [UserSelection, setUserSelection] = useState({})
     
     // Fetch List of DataSources/Exchanges
-    let fetchListOfStrategies = async()=>{
-        let listOfStrategies = await GET('http://localhost:5001/ListAllStrategies')
+    let fetchListOfIndicators = async()=>{
+        let listOfIndicators = await GET('http://localhost:5001/ListAllIndicators')
+        console.log(listOfIndicators);
         setHeaderData({
-            allStrategies: listOfStrategies.Strategies
+            allIndicators: listOfIndicators.IndicatorsToRender
         })
     }
 
     useEffect(() => {
-        fetchListOfStrategies()
+        fetchListOfIndicators()
       },[])
 
 
-    let mapAllStrategies = (props) => {
-        const Indicators = props.allStrategies.map((element) =>  
+    let mapAllIndicators = (props) => {
+        const Indicators = props.allIndicators.map((element) =>  
             <Dropdown.Item key={element.name} >{element.name}</Dropdown.Item>
         )
         return Indicators
     }   
 
-    const RenderStrategies = HeaderData.Loading === true ?
-        <p>loading Strategies</p> :
-        <p>{mapAllStrategies(HeaderData)}</p>
+    const RenderIndicators = HeaderData.Loading === true ?
+        <p>loading Indicators</p> :
+        <p>{mapAllIndicators(HeaderData)}</p>
 
     return(
         <Container>
             <Row>
                 <Col>
-                <DropdownButton variant="dark" id="dropdown-item-button" title='Select Strategy'>
-                    {RenderStrategies}
-                </DropdownButton>
-                
+                    <DropdownButton variant="dark" id="dropdown-item-button" title='Select Indicator'>
+                        {RenderIndicators}
+                    </DropdownButton>
                 </Col>
 
                 <Col>
@@ -57,6 +57,6 @@ let SimulationFetcherHeader = () => {
     )
 }
 
-export default SimulationFetcherHeader
+export default IndicatorFetcherHeader
 
 // onClick={() => fetchAssetList(element)}
