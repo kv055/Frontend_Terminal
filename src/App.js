@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import { Col, Row } from 'react-bootstrap';
+import {Alert, Col, Row ,Spinner} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 // Data Fetch module
@@ -32,6 +32,7 @@ function App() {
   const [SimulationData, setSimulationData] = useState({Loading: true, TradesListReadyToRender: false})
   const [OHLCData, setOHLCData] = useState({OHLCChartReadyToRender: false})
   const [fetchOHLCconfig, setfetchOHLCconfig] = useState({Loading: true})
+  const [PlotDataTraces, setPlotDataTraces] = useState([])
  
   // Then wait till we get the necesary Data from the HeaderDataFetcher Component to start 
   // fetching OHLC Data (recieveOHLCconfig is a callback function that gets the data out of the Component)
@@ -58,6 +59,9 @@ function App() {
        readyToFetchIndicators: true,
        readyToFetchSimulation: true
      })
+
+     setPlotDataTraces([OHLC_Data_Formater(ohlcFetched.OHLC)])
+     
      setfetchOHLCconfig({Loading : true})
   }
 
@@ -67,20 +71,20 @@ function App() {
   
 
   // Performing the GET request to fetch Indicators data and writing it into the IndicatorData state
-  const fetchIndicator = async () =>{
-    let indicatorsFetched = await GET('http://127.0.0.1:5001/Indicators')
-    setIndicatorData({
-       Indicator1: Multiple_DataSets(indicatorsFetched.Indicators)[0],
-       Indicator2: Multiple_DataSets(indicatorsFetched.Indicators)[1],
-       Indicator3: Multiple_DataSets(indicatorsFetched.Indicators)[2],
-       Loading : false
-     })
-     setOHLCData({readyToFetchIndicators: false})
-  }
+  // const fetchIndicator = async () =>{
+  //   let indicatorsFetched = await GET('http://127.0.0.1:5001/Indicators')
+  //   setIndicatorData({
+  //      Indicator1: Multiple_DataSets(indicatorsFetched.Indicators)[0],
+  //      Indicator2: Multiple_DataSets(indicatorsFetched.Indicators)[1],
+  //      Indicator3: Multiple_DataSets(indicatorsFetched.Indicators)[2],
+  //      Loading : false
+  //    })
+  //    setOHLCData({readyToFetchIndicators: false})
+  // }
 
-  if(OHLCData.readyToFetchIndicators === true){
-    fetchIndicator()
-  }
+  // if(OHLCData.readyToFetchIndicators === true){
+  //   fetchIndicator()
+  // }
 
   // Performing the GET request to fetch Simulation data and writing it into the IndicatorData state
   let fetchSimulation = async () => {
@@ -94,30 +98,35 @@ function App() {
     setOHLCData({readyToFetchSimulation: false})
   }
 
-  // if(OHLCData.readyToFetchSimulation === true){
-  //   setTimeout(fetchSimulation(), 5000)
+  if(OHLCData.readyToFetchSimulation === true){
+    fetchSimulation()
     
-  // }
+  }
+
+  const recieveIndicatorConfig = async (childData) => {
+    let indicatorData = await POST('http://localhost:5001/RenderIndicator', {config: childData})
+    // setIndicatorData({
+    //   Indicator: childData
+    // })
+    let TestRendeering = Multiple_DataSets([indicatorData.Test])
+
+    setPlotDataTraces([...PlotDataTraces, TestRendeering[0]])
+
+  }
 
   let OHLCChart = OHLCData.OHLCChartReadyToRender === false ? 
-    <p>Loading Chart</p>  : 
+  <Alert variant='light'> <h4 style={{ }}>Loading Graph</h4> <Spinner animation="border" /> <Spinner animation="border" /> <Spinner animation="border" /> </Alert>  : 
     <Plot 
-      dataSet={[
-        OHLCData.OHLC,
-        // IndicatorData.Indicator1,
-        IndicatorData.Indicator2,
-        IndicatorData.Indicator3,
-        // SimulationData.Simulation
-      ]}
+      dataSet={ PlotDataTraces }
       layoutSet={OHLCData.Layout}
     />
   
-  // // Initialise Dashboard
-  // let TradesList = SimulationData.TradesListReadyToRender === false ?
-  //   <p>Loading Simulation</p> :
-  //     <TradesHistory 
-  //       dataSet={SimulationData.Simulation}
-  //     />
+  // Initialise Dashboard
+  let TradesList = SimulationData.TradesListReadyToRender === false ?
+    <Alert variant='light'> <h4 style={{ }}>Loading Simulation</h4><Spinner animation="border" /> <Spinner animation="border" /> <Spinner animation="border" /> </Alert> :
+      <TradesHistory 
+        dataSet={SimulationData.Simulation}
+      />
 
       
   return (
@@ -135,13 +144,13 @@ function App() {
       </Row>
       <Row>
         <Col>
-          <HeaderIndicator />
+          <HeaderIndicator childData={recieveIndicatorConfig}/>
         </Col>
         <Col>
           <HeaderSimulation />
         </Col>
       </Row>
-      {/* {TradesList} */}
+      {TradesList}
     </div>
   );
 }

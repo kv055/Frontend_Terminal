@@ -7,7 +7,10 @@ import GET from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/Dat
 
 let SimulationFetcherHeader = () => {
     const [HeaderData, setHeaderData] = useState({Loading: true})
-    // const [UserSelection, setUserSelection] = useState({})
+    const [UserSelection, setUserSelection] = useState({
+        selectedStrategy: 'Please Select Strategy',
+        selectedPeriod: "Enter Indicator Period"
+    })
     
     // Fetch List of DataSources/Exchanges
     let fetchListOfStrategies = async()=>{
@@ -24,7 +27,9 @@ let SimulationFetcherHeader = () => {
 
     let mapAllStrategies = (props) => {
         const Indicators = props.allStrategies.map((element) =>  
-            <Dropdown.Item key={element.name} >{element.name}</Dropdown.Item>
+            <Dropdown.Item key={element.name} onClick={() => setUserSelection({...UserSelection, selectedStrategy: element.name})}>
+                {element.name}
+            </Dropdown.Item>
         )
         return Indicators
     }   
@@ -34,10 +39,11 @@ let SimulationFetcherHeader = () => {
         <p>{mapAllStrategies(HeaderData)}</p>
 
     return(
-        <Container>
+        <Container className="w-100 p-1">
+            <Alert variant="dark">
             <Row>
                 <Col>
-                <DropdownButton variant="dark" id="dropdown-item-button" title='Select Strategy'>
+                <DropdownButton variant="dark" id="dropdown-item-button" title={UserSelection.selectedStrategy}>
                     {RenderStrategies}
                 </DropdownButton>
                 
@@ -45,14 +51,17 @@ let SimulationFetcherHeader = () => {
 
                 <Col>
                     <Form>
-                        <Form.Label>Strategy Config</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
-                        <Form.Text className="text-muted">
-                            We'll never share your email with anyone else.
-                        </Form.Text>
+                        <Form.Control type="number" placeholder={UserSelection.selectedPeriod} 
+                        onChange={e => setUserSelection({...UserSelection, selectedPeriod: e.target.value})}/>
                     </Form>
                 </Col>
+                <Col>
+                    <Button variant="success" onClick={() => setUserSelection({...UserSelection, selectedPeriod: 50})}>
+                        Render Strategy
+                    </Button>
+                </Col>
             </Row>
+            </Alert>
         </Container>
     )
 }

@@ -80,23 +80,23 @@ let DataFetcherHeader = (props) => {
         <p>{listCandleSizes(HeaderData)}</p>
 
 
-    if(UserSelection.assetPair !== 'Select Asset' && UserSelection.candleSize !== 'Select CandleSize'){
-        console.log(UserSelection);
-        props.childData({'ohlcConfig':UserSelection})
-        setUserSelection({ 
-            exchange: {name:'Select Exchange'},
-            assetPair: {name:'Select Asset'},
-            candleSize:'Select CandleSize'
-        })
-    }
+    // if(UserSelection.assetPair !== 'Select Asset' && UserSelection.candleSize !== 'Select CandleSize'){
+    //     console.log(UserSelection);
+    //     props.childData({'ohlcConfig':UserSelection})
+    //     setUserSelection({ 
+    //         exchange: {name:'Select Exchange'},
+    //         assetPair: {name:'Select Asset'},
+    //         candleSize:'Select CandleSize'
+    //     })
+    // }
     
     return(
         <Alert variant="dark">
             <Container>
                 <Row>
                 
-                    <Col>
-                        <DropdownButton variant="dark" id="dropdown-item-button" title={UserSelection.exchange.name}>
+                    <Col className='justify-content-md-center'>
+                        <DropdownButton  variant="dark" id="dropdown-item-button" title={UserSelection.exchange.name}>
                             {DataSources}
                         </DropdownButton>
                     </Col>
@@ -113,6 +113,12 @@ let DataFetcherHeader = (props) => {
                         <DropdownButton variant="dark" id="dropdown-item-button" title={UserSelection.candleSize}>
                             {CandleSizes}
                         </DropdownButton>
+                    </Col>
+
+                    <Col>
+                        <Button variant="success" onClick={() => props.childData({'ohlcConfig':UserSelection})}>
+                            Render Graph
+                        </Button>
                     </Col>
                     
                 </Row>

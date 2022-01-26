@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import { Container,Alert, Dropdown, DropdownButton, Col, Row } from 'react-bootstrap';
+import { Container, Alert, Dropdown, DropdownButton, Col, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 let Header = () => {
     const [BackendSelection, setBackendSelection] = useState({SelectedBackend: 'Abelian Backtesting'})
@@ -8,7 +8,7 @@ let Header = () => {
         <Container>
             <Row>
                 <Col>
-                    <h1>Abelian Capital</h1>
+                    <h2>Abeliean-Capital</h2>
                 </Col>
            
                 <Col>
