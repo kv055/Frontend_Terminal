@@ -8,11 +8,7 @@ import GET from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/Dat
 //DataSet Formater modules
 import OHLC_Data_Formater from './formater_Modules/OHLC_Data_Formater'
 import OHLC_Layout from './formater_Modules/OHLC_Layout_Formater'
-// import Simulator_Data_Formater from './formater_Modules/Simulator_Data_Formater'
-// import Simulator_Layout from './formater_Modules/Simulator_Layout_Formater'
-// import Strategy_Indicator_Layout from './formater_Modules/Strategy_Indicator_Layout'
-// import Strategy_Data_Formater from './formater_Modules/Markers_DataSets_Formater'
-// import Lines_Data_Formater from './formater_Modules/Line_DataSets_Formater'
+
 
 import Multiple_DataSets from './formater_Modules/Multiple_Data_Sets_Formater'
 
@@ -31,26 +27,19 @@ function App() {
   const [IndicatorData, setIndicatorData] = useState({Loading: true})
   const [SimulationData, setSimulationData] = useState({Loading: true, TradesListReadyToRender: false})
   const [OHLCData, setOHLCData] = useState({OHLCChartReadyToRender: false})
-  const [fetchOHLCconfig, setfetchOHLCconfig] = useState({Loading: true})
   const [PlotDataTraces, setPlotDataTraces] = useState([])
+  const [PlotLayout, setPlotLayout] = useState([])
  
   // Then wait till we get the necesary Data from the HeaderDataFetcher Component to start 
-  // fetching OHLC Data (recieveOHLCconfig is a callback function that gets the data out of the Component)
-  let recieveOHLCconfig = (childData) =>{
+  // fetching OHLC Data (CallbackOHLC is a callback function that gets the data out of the Component)
+  let CallbackOHLC = async (childData) =>{
     console.log(childData);
-    setfetchOHLCconfig({
+    let ohlcFetched = await POST('http://127.0.0.1:5001/OHLC', {
       ohlcConfig: { exchange: childData.ohlcConfig.exchange.mic,
                     assetPair: childData.ohlcConfig.assetPair.symbol,
                     candleSize: childData.ohlcConfig.candleSize 
-      },
-      Loading : false
+      }
     })
-  }
-  
-  // Performing the POST request to fetch OHLC data and writing it into the OHLCData state
-  const fetchOHLC = async () =>{
-    console.log(fetchOHLCconfig.ohlcConfig);
-    let ohlcFetched = await POST('http://127.0.0.1:5001/OHLC', fetchOHLCconfig)
     setOHLCData({
        OHLC: OHLC_Data_Formater(ohlcFetched.OHLC),
        Layout: OHLC_Layout(ohlcFetched.OHLC, ohlcFetched.config),
@@ -59,56 +48,34 @@ function App() {
        readyToFetchIndicators: true,
        readyToFetchSimulation: true
      })
-
+     setPlotLayout({Layout: OHLC_Layout(ohlcFetched.OHLC, ohlcFetched.config)})
      setPlotDataTraces([OHLC_Data_Formater(ohlcFetched.OHLC)])
-     
-     setfetchOHLCconfig({Loading : true})
-  }
-
-  if(fetchOHLCconfig.Loading === false){
-    fetchOHLC()
+     console.log(PlotLayout);
   }
   
 
-  // Performing the GET request to fetch Indicators data and writing it into the IndicatorData state
-  // const fetchIndicator = async () =>{
-  //   let indicatorsFetched = await GET('http://127.0.0.1:5001/Indicators')
-  //   setIndicatorData({
-  //      Indicator1: Multiple_DataSets(indicatorsFetched.Indicators)[0],
-  //      Indicator2: Multiple_DataSets(indicatorsFetched.Indicators)[1],
-  //      Indicator3: Multiple_DataSets(indicatorsFetched.Indicators)[2],
-  //      Loading : false
-  //    })
-  //    setOHLCData({readyToFetchIndicators: false})
-  // }
-
-  // if(OHLCData.readyToFetchIndicators === true){
-  //   fetchIndicator()
-  // }
 
   // Performing the GET request to fetch Simulation data and writing it into the IndicatorData state
-  let fetchSimulation = async () => {
+  // let fetchSimulation = async () => {
 
-    let SimulationFetched = await GET('http://127.0.0.1:5001/Simulation')
-    setSimulationData({
-      Simulation: SimulationFetched.Simulation, 
-      TradesListReadyToRender: true
-    })
-    console.log(SimulationData);
-    setOHLCData({readyToFetchSimulation: false})
-  }
+  //   let SimulationFetched = await GET('http://127.0.0.1:5001/Simulation')
+  //   setSimulationData({
+  //     Simulation: SimulationFetched.Simulation, 
+  //     TradesListReadyToRender: true
+  //   })
+  //   console.log('105',SimulationData);
+  //   setOHLCData({readyToFetchSimulation: false})
+  // }
 
-  if(OHLCData.readyToFetchSimulation === true){
-    fetchSimulation()
+  // if(OHLCData.readyToFetchSimulation === true){
+  //   fetchSimulation()
     
-  }
+  // }
 
   const recieveIndicatorConfig = async (childData) => {
     let indicatorData = await POST('http://localhost:5001/RenderIndicator', {config: childData})
-    // setIndicatorData({
-    //   Indicator: childData
-    // })
-    let TestRendeering = Multiple_DataSets([indicatorData.Test])
+    console.log(indicatorData);
+    let TestRendeering = Multiple_DataSets([indicatorData.Test],indicatorData.config)
 
     setPlotDataTraces([...PlotDataTraces, TestRendeering[0]])
 
@@ -118,7 +85,7 @@ function App() {
   <Alert variant='light'> <h4 style={{ }}>Loading Graph</h4> <Spinner animation="border" /> <Spinner animation="border" /> <Spinner animation="border" /> </Alert>  : 
     <Plot 
       dataSet={ PlotDataTraces }
-      layoutSet={OHLCData.Layout}
+      layoutSet={ PlotLayout.Layout }
     />
   
   // Initialise Dashboard
@@ -136,7 +103,7 @@ function App() {
           {<AbelianHeader />}  
         </Col>
         <Col>
-          {<HeaderDataFetcher childData={recieveOHLCconfig} />}
+          {<HeaderDataFetcher childData={CallbackOHLC} />}
         </Col>
       </Row>
       <Row>

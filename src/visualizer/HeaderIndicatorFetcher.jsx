@@ -12,6 +12,7 @@ let IndicatorFetcherHeader = (props) => {
         selectedIndicator: {name:'Please Select Indicator'},
         selectedPeriod: "Enter Indicator Period"
     })
+    const [AllRenderedIndicators,setAllRenderedIndicators] = useState([])
 
     // Fetch List of DataSources/Exchanges
     let fetchListOfIndicators = async()=>{
@@ -36,15 +37,24 @@ let IndicatorFetcherHeader = (props) => {
         return Indicators
     }   
 
-    const RenderIndicators = HeaderData.Loading === true ?
+    const listIndicators = HeaderData.Loading === true ?
         <p>loading Indicators</p> :
         <p>{mapAllIndicators(HeaderData)}</p>
 
     
     const fetchIndicatorData = (indicatorConfig) => {
         props.childData(indicatorConfig)
+        setAllRenderedIndicators([...AllRenderedIndicators, indicatorConfig])
+    }
+    console.log(AllRenderedIndicators);
+
+    const mapRenderedIndicators = (props) => {
+        const Indicators = props.map((indicator) =>
+        <p>{indicator.selectedIndicator.name, indicator.selectedPeriod}</p>
+        )
     }
 
+    console.log(mapRenderedIndicators);
 
     return(
         <Container className="w-100 p-1">
@@ -52,7 +62,7 @@ let IndicatorFetcherHeader = (props) => {
             <Row>
                 <Col>
                     <DropdownButton variant="dark" id="dropdown-item-button" title={UserSelection.selectedIndicator.name}>
-                        {RenderIndicators}
+                        {listIndicators}
                     </DropdownButton>
                 </Col>
 
@@ -68,6 +78,10 @@ let IndicatorFetcherHeader = (props) => {
                         Render Indicator
                     </Button>
                 </Col>
+            </Row>
+            <Row>
+                <p>Rendered Indicators:</p>
+
             </Row>
             </Alert>
         </Container>
