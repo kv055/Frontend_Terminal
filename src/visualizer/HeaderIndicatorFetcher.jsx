@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-import {Alert, Button, Container, Dropdown, DropdownButton, Col,Form, Row } from 'react-bootstrap';
+import {Alert, Button, Col, Container, Dropdown, DropdownButton, Form, ListGroup, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import POST from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchPOST.js'
@@ -46,15 +46,21 @@ let IndicatorFetcherHeader = (props) => {
         props.childData(indicatorConfig)
         setAllRenderedIndicators([...AllRenderedIndicators, indicatorConfig])
     }
-    console.log(AllRenderedIndicators);
+    
 
     const mapRenderedIndicators = (props) => {
         const Indicators = props.map((indicator) =>
-        <p>{indicator.selectedIndicator.name, indicator.selectedPeriod}</p>
+            <ListGroup>
+                <ListGroup.Item>{indicator.selectedIndicator.name +' '+ indicator.selectedPeriod}<Button variant="dark">Delete</Button></ListGroup.Item>
+            </ListGroup>
+       
         )
+        return Indicators
     }
-
-    console.log(mapRenderedIndicators);
+    console.log(AllRenderedIndicators);
+    const RenderedIndicators = AllRenderedIndicators.length == 0 ?
+        <p>loading Indicators</p> :
+        <p>{mapRenderedIndicators(AllRenderedIndicators)}</p>
 
     return(
         <Container className="w-100 p-1">
@@ -80,8 +86,7 @@ let IndicatorFetcherHeader = (props) => {
                 </Col>
             </Row>
             <Row>
-                <p>Rendered Indicators:</p>
-
+                {RenderedIndicators}
             </Row>
             </Alert>
         </Container>

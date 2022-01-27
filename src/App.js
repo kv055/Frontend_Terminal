@@ -75,7 +75,7 @@ function App() {
   const recieveIndicatorConfig = async (childData) => {
     let indicatorData = await POST('http://localhost:5001/RenderIndicator', {config: childData})
     console.log(indicatorData);
-    let TestRendeering = Multiple_DataSets([indicatorData.Test],indicatorData.config)
+    let TestRendeering = Multiple_DataSets([indicatorData.Indicator],indicatorData.config)
 
     setPlotDataTraces([...PlotDataTraces, TestRendeering[0]])
 
