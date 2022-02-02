@@ -1,5 +1,5 @@
 import Plot from 'react-plotly.js';
-import { Container, Alert} from 'react-bootstrap';
+import { Container} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 const Generator = (props) => {

@@ -1,15 +1,12 @@
-let creator = (array)=>{
-    console.log(array);
-
+let creator = (array,config)=>{
         let DataSetCrossings ={
-            x : array.time, 
-            y : array.assetValue,
+            x : array.Time, 
+            y : array.AssetPrice,
             mode : 'markers',
             type : 'scatter',
-            name: 'Indicator',
+            name: config.Strategy
         }
 
-    console.log(DataSetCrossings)
     return DataSetCrossings
 }
 export default creator

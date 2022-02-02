@@ -4,17 +4,16 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 // Data Fetch module
 import POST from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchPOST.js'
-import GET from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchGET.js'
+// import GET from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchGET.js'
 //DataSet Formater modules
 import OHLC_Data_Formater from './formater_Modules/OHLC_Data_Formater'
 import OHLC_Layout from './formater_Modules/OHLC_Layout_Formater'
-
-
 import Multiple_DataSets from './formater_Modules/Multiple_Data_Sets_Formater'
+import Markers_DataSets from './formater_Modules/Markers_DataSets_Formater'
 
 //Plot Generator Modules
 import Plot from './generator_Modules/PlotGenerator'
-// import MultiplePlotsGenerator from './generator_Modules/MultiplePlotsGenerator'
+
 //UI Dashboard Modules
 import AbelianHeader from './visualizer/Abelian_Header'
 import HeaderDataFetcher from './visualizer/HeaderDataFetcher'
@@ -24,7 +23,7 @@ import TradesHistory from './visualizer/TradesHistory'
 
 function App() {
   // Initialize State Variable
-  const [IndicatorData, setIndicatorData] = useState({Loading: true})
+  // const [IndicatorData, setIndicatorData] = useState({Loading: true})
   const [SimulationData, setSimulationData] = useState({Loading: true, TradesListReadyToRender: false})
   const [OHLCData, setOHLCData] = useState({OHLCChartReadyToRender: false})
   const [PlotDataTraces, setPlotDataTraces] = useState([])
@@ -53,34 +52,25 @@ function App() {
      console.log(PlotLayout);
   }
   
-
-
-  // Performing the GET request to fetch Simulation data and writing it into the IndicatorData state
-  // let fetchSimulation = async () => {
-
-  //   let SimulationFetched = await GET('http://127.0.0.1:5001/Simulation')
-  //   setSimulationData({
-  //     Simulation: SimulationFetched.Simulation, 
-  //     TradesListReadyToRender: true
-  //   })
-  //   console.log('105',SimulationData);
-  //   setOHLCData({readyToFetchSimulation: false})
-  // }
-
-  // if(OHLCData.readyToFetchSimulation === true){
-  //   fetchSimulation()
-    
-  // }
-
-  const recieveIndicatorConfig = async (childData) => {
+  const CallbackIndicator = async (childData) => {
     let indicatorData = await POST('http://localhost:5001/RenderIndicator', {config: childData})
     console.log(indicatorData);
     let TestRendeering = Multiple_DataSets([indicatorData.Indicator],indicatorData.config)
-
     setPlotDataTraces([...PlotDataTraces, TestRendeering[0]])
-
   }
 
+
+  const CallbackSimulation = async (childData) => {
+    let SimData = await POST('http://localhost:5001/Simulation', {config: childData})
+    let TestRendering = Markers_DataSets(SimData.Simulation,childData)
+    setPlotDataTraces([...PlotDataTraces, TestRendering])
+    setSimulationData({
+      Simulation: SimData.Simulation,
+      TradesListReadyToRender: true
+    })
+  }
+
+  console.log(SimulationData);
   let OHLCChart = OHLCData.OHLCChartReadyToRender === false ? 
   <Alert variant='light'> <h4 style={{ }}>Loading Graph</h4> <Spinner animation="border" /> <Spinner animation="border" /> <Spinner animation="border" /> </Alert>  : 
     <Plot 
@@ -90,7 +80,7 @@ function App() {
   
   // Initialise Dashboard
   let TradesList = SimulationData.TradesListReadyToRender === false ?
-    <Alert variant='light'> <h4 style={{ }}>Loading Simulation</h4><Spinner animation="border" /> <Spinner animation="border" /> <Spinner animation="border" /> </Alert> :
+    <Alert variant='light'> <h4 style={{}}>Loading Simulation</h4><Spinner animation="border" /> <Spinner animation="border" /> <Spinner animation="border" /> </Alert> :
       <TradesHistory 
         dataSet={SimulationData.Simulation}
       />
@@ -103,7 +93,7 @@ function App() {
           {<AbelianHeader />}  
         </Col>
         <Col>
-          {<HeaderDataFetcher childData={CallbackOHLC} />}
+          {<HeaderDataFetcher childData={CallbackOHLC}/>}
         </Col>
       </Row>
       <Row>
@@ -111,10 +101,10 @@ function App() {
       </Row>
       <Row>
         <Col>
-          <HeaderIndicator childData={recieveIndicatorConfig}/>
+          <HeaderIndicator childData={CallbackIndicator}/>
         </Col>
         <Col>
-          <HeaderSimulation />
+          <HeaderSimulation childData={CallbackSimulation}/>
         </Col>
       </Row>
       {TradesList}

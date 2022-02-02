@@ -12,6 +12,7 @@ let creator = (OHLCSet, config)=>{
                 t: 5,
                 pad: 4
             },
+            legend: {"orientation": "h"},
             xaxis: {
                 autorange: true,
                 rangeselector: {buttons: [

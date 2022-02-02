@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import {Alert, Button, Col, Container, Dropdown, DropdownButton, Form, ListGroup, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import POST from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchPOST.js'
+// import POST from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchPOST.js'
 import GET from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchGET.js'
 
 let IndicatorFetcherHeader = (props) => {
@@ -38,7 +38,7 @@ let IndicatorFetcherHeader = (props) => {
     }   
 
     const listIndicators = HeaderData.Loading === true ?
-        <p>loading Indicators</p> :
+        <p></p> :
         <p>{mapAllIndicators(HeaderData)}</p>
 
     
@@ -50,44 +50,57 @@ let IndicatorFetcherHeader = (props) => {
 
     const mapRenderedIndicators = (props) => {
         const Indicators = props.map((indicator) =>
-            <ListGroup>
-                <ListGroup.Item>{indicator.selectedIndicator.name +' '+ indicator.selectedPeriod}<Button variant="dark">Delete</Button></ListGroup.Item>
+            <ListGroup key={indicator.selectedIndicator.symbol}>
+                <ListGroup.Item>
+                    <Row>
+                        <Col>   
+                            {indicator.selectedIndicator.name}
+                        </Col>
+                        <Col>
+                            {indicator.selectedPeriod}
+                        </Col>
+                        <Col>
+                            <Button variant="dark">Delete</Button>
+                        </Col>
+                    </Row>
+                    {/* {indicator.selectedIndicator.name +' '+ indicator.selectedPeriod}<Button variant="dark">Delete</Button> */}
+                </ListGroup.Item>
             </ListGroup>
        
         )
         return Indicators
     }
     console.log(AllRenderedIndicators);
-    const RenderedIndicators = AllRenderedIndicators.length == 0 ?
-        <p>loading Indicators</p> :
+    const RenderedIndicators = AllRenderedIndicators.length === 0 ?
+        <p></p> :
         <p>{mapRenderedIndicators(AllRenderedIndicators)}</p>
 
     return(
         <Container className="w-100 p-1">
             <Alert variant="dark">
-            <Row>
-                <Col>
-                    <DropdownButton variant="dark" id="dropdown-item-button" title={UserSelection.selectedIndicator.name}>
-                        {listIndicators}
-                    </DropdownButton>
-                </Col>
+                <Row>
+                    <Col>
+                        <DropdownButton variant="dark" id="dropdown-item-button" title={UserSelection.selectedIndicator.name}>
+                            {listIndicators}
+                        </DropdownButton>
+                    </Col>
 
-                <Col>
-                    <Form> 
-                        <Form.Control type="number" placeholder={UserSelection.selectedPeriod} 
-                        onChange={e => setUserSelection({...UserSelection, selectedPeriod: e.target.value})}/>
-                    </Form>
-                </Col>
+                    <Col>
+                        <Form> 
+                            <Form.Control type="number" placeholder={UserSelection.selectedPeriod} 
+                            onChange={e => setUserSelection({...UserSelection, selectedPeriod: e.target.value})}/>
+                        </Form>
+                    </Col>
 
-                <Col>
-                    <Button variant="success" onClick={() => fetchIndicatorData(UserSelection)}>
-                        Render Indicator
-                    </Button>
-                </Col>
-            </Row>
-            <Row>
-                {RenderedIndicators}
-            </Row>
+                    <Col>
+                        <Button variant="success" onClick={() => fetchIndicatorData(UserSelection)}>
+                            Render Indicator
+                        </Button>
+                    </Col>
+                </Row>
+                <Row>
+                    {RenderedIndicators}
+                </Row>
             </Alert>
         </Container>
     )
