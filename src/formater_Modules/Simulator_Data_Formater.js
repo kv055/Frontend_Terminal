@@ -13,9 +13,7 @@ let creator = (SimulatorSet)=>{
         hovertemplate:{
         }
     }
-    // SimulatorSet.forEach(element => {
-        
-    // })
+
     SimulatorSet.Trades.forEach(element => {
         plotlyDataSet.x.push(element.Open)
         plotlyDataSet.y.push(element.AssetPrice)

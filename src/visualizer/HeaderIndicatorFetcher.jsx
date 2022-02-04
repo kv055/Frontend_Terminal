@@ -50,7 +50,7 @@ let IndicatorFetcherHeader = (props) => {
 
     const mapRenderedIndicators = (props) => {
         const Indicators = props.map((indicator) =>
-            <ListGroup key={indicator.selectedIndicator.symbol}>
+            <ListGroup key={(indicator.selectedIndicator.symbol + indicator.selectedPeriod)}>
                 <ListGroup.Item>
                     <Row>
                         <Col>   

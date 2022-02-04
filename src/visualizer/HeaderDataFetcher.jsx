@@ -79,16 +79,6 @@ let DataFetcherHeader = (props) => {
         <p>{UserSelection.CandleSize}</p>  : 
         <p>{listCandleSizes(HeaderData)}</p>
 
-
-    // if(UserSelection.assetPair !== 'Select Asset' && UserSelection.candleSize !== 'Select CandleSize'){
-    //     console.log(UserSelection);
-    //     props.childData({'ohlcConfig':UserSelection})
-    //     setUserSelection({ 
-    //         exchange: {name:'Select Exchange'},
-    //         assetPair: {name:'Select Asset'},
-    //         candleSize:'Select CandleSize'
-    //     })
-    // }
     
     return(
         <Alert variant="dark">
