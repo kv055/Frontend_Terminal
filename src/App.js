@@ -45,9 +45,9 @@ function App() {
       }
     })
     setOHLCData({
-       OHLC: OHLC_Data_Formater(ohlcFetched.OHLC),
-       Layout: OHLC_Layout(ohlcFetched.OHLC, ohlcFetched.config),
-       config: ohlcFetched.config,
+      //  OHLC: OHLC_Data_Formater(ohlcFetched.OHLC),
+      //  Layout: OHLC_Layout(ohlcFetched.OHLC, ohlcFetched.config),
+      //  config: ohlcFetched.config,
        OHLCChartReadyToRender: true
      })
      setPlotLayout({Layout: OHLC_Layout(ohlcFetched.OHLC, ohlcFetched.config)})
@@ -60,7 +60,7 @@ function App() {
     let SeperateGraphNeeded = RenderSeperateGraph(indicatorData.config)
     console.log(SeperateGraphNeeded);
     if (SeperateGraphNeeded === true) {
-      setSeperatePlot([Rendered[0]]) 
+      setSeperatePlot([...SeparatePlot,Rendered[0]]) 
       setSeparatePlotLayout({Layout: Seperate_Layout(indicatorData.config)})
       setRedayToRenderSeperatePlot({readyToRender: true})
     } else {
@@ -81,7 +81,7 @@ function App() {
 
 
   let OHLCChart = OHLCData.OHLCChartReadyToRender === false ? 
-  <Alert variant='light'> <h4 style={{ }}>Loading Graph</h4> <Spinner animation="border" /> <Spinner animation="border" /> <Spinner animation="border" /> </Alert>  : 
+  <Alert variant='light'> <Row className='row justify-content-center'> <h4 style={{textAlign: 'center'}}>Loading Graph</h4> <Spinner animation="border" /> <Spinner animation="border" /> <Spinner animation="border" /> </Row> </Alert>  : 
     <Plot 
       dataSet={ PlotDataTraces }
       layoutSet={ PlotLayout.Layout }
@@ -96,7 +96,7 @@ function App() {
 
   // Initialise Dashboard
   let TradesList = SimulationData.TradesListReadyToRender === false ?
-    <Alert variant='light'> <h4 style={{}}>Loading Simulation</h4><Spinner animation="border" /> <Spinner animation="border" /> <Spinner animation="border" /> </Alert> :
+    <Alert variant='light'> <Row className='row justify-content-center'> <h4 style={{textAlign: 'center'}}>Loading Simulation</h4><Spinner animation="border" /> <Spinner animation="border" /> <Spinner animation="border" /> </Row> </Alert> :
       <TradesHistory 
         dataSet={SimulationData.Simulation}
       />
