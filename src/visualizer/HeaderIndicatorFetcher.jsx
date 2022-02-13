@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-import {Alert, Button, Col, Container, Dropdown, DropdownButton, Form, ListGroup, Row } from 'react-bootstrap';
+import { Alert, Button, Col, Container, Dropdown, DropdownButton, Form, ListGroup, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 // import POST from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchPOST.js'
@@ -60,10 +60,9 @@ let IndicatorFetcherHeader = (props) => {
                             {indicator.selectedPeriod}
                         </Col>
                         <Col>
-                            <Button variant="dark">Delete</Button>
+                            <Button variant="dark" onClick={ ()=> {} }>Delete</Button>
                         </Col>
                     </Row>
-                    {/* {indicator.selectedIndicator.name +' '+ indicator.selectedPeriod}<Button variant="dark">Delete</Button> */}
                 </ListGroup.Item>
             </ListGroup>
        

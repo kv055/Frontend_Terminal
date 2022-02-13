@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 // Data Fetch module
 import POST from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchPOST.js'
-// import GET from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchGET.js'
+
 //DataSet Formater modules
 import OHLC_Data_Formater from './formater_Modules/OHLC_Data_Formater'
 import OHLC_Layout from './formater_Modules/OHLC_Layout_Formater'
@@ -45,9 +45,6 @@ function App() {
       }
     })
     setOHLCData({
-      //  OHLC: OHLC_Data_Formater(ohlcFetched.OHLC),
-      //  Layout: OHLC_Layout(ohlcFetched.OHLC, ohlcFetched.config),
-      //  config: ohlcFetched.config,
        OHLCChartReadyToRender: true
      })
      setPlotLayout({Layout: OHLC_Layout(ohlcFetched.OHLC, ohlcFetched.config)})
@@ -58,7 +55,7 @@ function App() {
     let indicatorData = await POST('http://localhost:5001/RenderIndicator', {config: childData})
     let Rendered = Multiple_DataSets([indicatorData.Indicator],indicatorData.config)
     let SeperateGraphNeeded = RenderSeperateGraph(indicatorData.config)
-    console.log(SeperateGraphNeeded);
+    console.log();
     if (SeperateGraphNeeded === true) {
       setSeperatePlot([...SeparatePlot,Rendered[0]]) 
       setSeparatePlotLayout({Layout: Seperate_Layout(indicatorData.config)})
