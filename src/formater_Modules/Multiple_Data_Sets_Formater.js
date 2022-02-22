@@ -7,7 +7,8 @@ let creator = (array,config)=>{
             y : array[index].value,
             mode : 'lines',
             type : 'scatter',
-            name : (config.selectedIndicator.name +' '+ config.selectedPeriod)
+            name : (config.selectedIndicator.name +' '+ config.selectedPeriod),
+            id: config.id
         }
         plotlyDataSet.push(DataSet)
     }

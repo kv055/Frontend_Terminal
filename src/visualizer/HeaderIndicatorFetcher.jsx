@@ -30,7 +30,7 @@ let IndicatorFetcherHeader = (props) => {
 
     let mapAllIndicators = (props) => {
         const Indicators = props.allIndicators.map((element) =>  
-            <Dropdown.Item key={element.name} onClick={() => setUserSelection({...UserSelection, selectedIndicator: element})} >
+            <Dropdown.Item key={element.name} onClick={() => setUserSelection({...UserSelection, selectedIndicator: element, id: Math.random()})} >
                 {element.name}
             </Dropdown.Item>
         )
@@ -69,7 +69,7 @@ let IndicatorFetcherHeader = (props) => {
         )
         return Indicators
     }
-    console.log(AllRenderedIndicators);
+    
     const RenderedIndicators = AllRenderedIndicators.length === 0 ?
         <p></p> :
         <p>{mapRenderedIndicators(AllRenderedIndicators)}</p>
@@ -87,7 +87,7 @@ let IndicatorFetcherHeader = (props) => {
                     <Col>
                         <Form> 
                             <Form.Control type="number" placeholder={UserSelection.selectedPeriod} 
-                            onChange={e => setUserSelection({...UserSelection, selectedPeriod: e.target.value})}/>
+                            onChange={e => setUserSelection({...UserSelection, selectedPeriod: e.target.value, id: Math.random()})}/>
                         </Form>
                     </Col>
 
