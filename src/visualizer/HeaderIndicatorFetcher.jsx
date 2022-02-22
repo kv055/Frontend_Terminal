@@ -44,20 +44,23 @@ let IndicatorFetcherHeader = (props) => {
     
     const fetchIndicatorData = (indicatorConfig) => {
         props.childData(indicatorConfig)
-        setAllRenderedIndicators([...AllRenderedIndicators, indicatorConfig])
+        
     }
-    
+
+    useEffect(()=> {
+        console.log(props.traces, 'props.traces')
+        setAllRenderedIndicators(props.traces)
+    },[props.traces])
 
     const mapRenderedIndicators = (props) => {
         const Indicators = props.map((indicator) =>
-            <ListGroup key={(indicator.selectedIndicator.symbol + indicator.selectedPeriod)}>
+            <ListGroup 
+            // key={(indicator.selectedIndicator.symbol + indicator.selectedPeriod)}
+            >
                 <ListGroup.Item>
                     <Row>
-                        <Col>   
-                            {indicator.selectedIndicator.name}
-                        </Col>
                         <Col>
-                            {indicator.selectedPeriod}
+                            {indicator.name}
                         </Col>
                         <Col>
                             <Button variant="dark" onClick={ ()=> {} }>Delete</Button>

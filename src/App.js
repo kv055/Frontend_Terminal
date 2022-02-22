@@ -51,7 +51,7 @@ function App() {
      setPlotDataTraces([OHLC_Data_Formater(ohlcFetched.OHLC)])
   }
   
-  const CallbackIndicator = async (childData) => {
+  const CallbackIndicatorFetch = async (childData) => {
     let indicatorData = await POST('http://localhost:5001/RenderIndicator', {config: childData})
     let Rendered = Multiple_DataSets([indicatorData.Indicator],indicatorData.config)
     let SeperateGraphNeeded = RenderSeperateGraph(indicatorData.config)
@@ -64,9 +64,9 @@ function App() {
       setPlotDataTraces([...PlotDataTraces, Rendered[0]])
     }
   }
+  // Todo: Callback Indicator Delete
 
-
-  const CallbackSimulation = async (childData) => {
+  const CallbackSimulationFetch = async (childData) => {
     let SimData = await POST('http://localhost:5001/Simulation', {config: childData})
     let TestRendering = Markers_DataSets(SimData.Simulation,childData)
     setPlotDataTraces([...PlotDataTraces, TestRendering])
@@ -75,6 +75,7 @@ function App() {
       TradesListReadyToRender: true
     })
   }
+//Todo: Callback Simulation Delete
 
 
   let OHLCChart = OHLCData.OHLCChartReadyToRender === false ? 
@@ -115,10 +116,10 @@ function App() {
       </Row>
       <Row>
         <Col>
-          <HeaderIndicator childData={CallbackIndicator}/>
+          <HeaderIndicator childData={CallbackIndicatorFetch} traces={PlotDataTraces}/>
         </Col>
         <Col>
-          <HeaderSimulation childData={CallbackSimulation}/>
+          <HeaderSimulation childData={CallbackSimulationFetch}/>
         </Col>
       </Row>
       {TradesList}
