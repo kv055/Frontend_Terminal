@@ -72,6 +72,7 @@ const LineCrossingsController  = (props) => {
                         'Period1' : Period1,
                         'Indicator2': Indicator2,
                         'Period2' : Period2,
+                        'Name' : Indicator1.symbol+' '+Period1+' VS '+Indicator2.symbol+' '+Period2,
                         'id': Math.random()
                     })}
                 >

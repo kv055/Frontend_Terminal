@@ -69,7 +69,6 @@ function App() {
     console.log(id)
     let filtered = PlotDataTraces.filter(function(traceElement){
         return traceElement.id !== id})
-
     setPlotDataTraces(filtered) 
   } 
 
@@ -79,6 +78,7 @@ function App() {
     setPlotDataTraces([...PlotDataTraces, TestRendering])
     setSimulationData({
       Simulation: SimData.Simulation,
+      config: childData,
       TradesListReadyToRender: true
     })
   }
@@ -104,6 +104,7 @@ function App() {
     <Alert variant='light'> <Row className='row justify-content-center'> <h4 style={{textAlign: 'center'}}>Loading Simulation</h4><Spinner animation="border" /> <Spinner animation="border" /> <Spinner animation="border" /> </Row> </Alert> :
       <TradesHistory 
         dataSet={SimulationData.Simulation}
+        config={SimulationData.config}
       />
 
       

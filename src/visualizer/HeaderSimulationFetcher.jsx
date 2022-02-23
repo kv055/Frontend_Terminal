@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {Alert, Button, Col, Container, Dropdown, DropdownButton, ListGroup, Row } from 'react-bootstrap';
+import {Alert, Container, Dropdown, DropdownButton, ListGroup, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 // import POST from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchPOST.js'
@@ -47,21 +47,21 @@ let SimulationFetcherHeader = (props) => {
         // Give Data Back to App.js 
         props.childData(SimConfig)
         // Write in local State
-        setAllRenderedStrategies([SimConfig])
+        setAllRenderedStrategies([...AllRenderedStrategies, SimConfig])
     }
 
-    useEffect(()=> {
-        console.log(props.traces, 'props.traces')
-        setAllRenderedStrategies(props.traces)
-    },[props.traces])
-
+    const deletefromRenderedComponent = (id) => {
+        let filtered = AllRenderedStrategies.filter(function(traceElement){
+            return traceElement.id !== id})
+        setAllRenderedStrategies(filtered) 
+    }
     const TWOLCController = UserSelection.selectedStrategy === 'Please Select Strategy' ?
         null:
         <TWOLCCON callback={fetchSimulationData}/>
 
     const RenderedStrategies = AllRenderedStrategies.length === 0 ?
         null :
-        <RenderedStrategiesComponent strategies={AllRenderedStrategies} delete={props.deleteTraces}></RenderedStrategiesComponent>
+        <RenderedStrategiesComponent strategies={AllRenderedStrategies} delete={props.deleteTraces} deletefromAllrenderedStrategies={deletefromRenderedComponent}></RenderedStrategiesComponent>
 
     return(
         <Container className="w-100 p-1">

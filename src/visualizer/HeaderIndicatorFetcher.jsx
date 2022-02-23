@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-import { Alert, Button, Col, Container, Dropdown, DropdownButton, Form, ListGroup, Row } from 'react-bootstrap';
+import { Alert, Button, Col, Container, Dropdown, DropdownButton, Form, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import GET from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchGET.js'
@@ -44,18 +44,18 @@ let IndicatorFetcherHeader = (props) => {
     
     const fetchIndicatorData = (indicatorConfig) => {
         props.childData(indicatorConfig)
-        
+        setAllRenderedIndicators([...AllRenderedIndicators, indicatorConfig])
     }
 
-    useEffect(()=> {
-        setAllRenderedIndicators(props.traces)
-    },[props.traces])
+    const deletefromRenderedComponent = (id) => {
+        let filtered = AllRenderedIndicators.filter(function(traceElement){
+            return traceElement.id !== id})
+            setAllRenderedIndicators(filtered) 
+    }
 
-    // const deleteTraces = props.deleteTraces
-    
     const RenderedIndicators = AllRenderedIndicators.length === 0 ?
         null :
-        <RenderedIndicatorsComponent Indicators={AllRenderedIndicators} delete={props.deleteTraces}></RenderedIndicatorsComponent>
+        <RenderedIndicatorsComponent Indicators={AllRenderedIndicators} delete={props.deleteTraces} deletefromRenderedComponent={deletefromRenderedComponent}></RenderedIndicatorsComponent>
 
     return(
         <Container className="w-100 p-1">
@@ -89,5 +89,3 @@ let IndicatorFetcherHeader = (props) => {
 }
 
 export default IndicatorFetcherHeader
-
-// setUserSelection({...UserSelection, selectedPeriod: 50}
