@@ -65,6 +65,13 @@ function App() {
     }
   }
   // Todo: Callback Indicator Delete
+  const deleteDataTraces = (id) => {
+    console.log(id)
+    let filtered = PlotDataTraces.filter(function(traceElement){
+        return traceElement.id !== id})
+
+    setPlotDataTraces(filtered) 
+  } 
 
   const CallbackSimulationFetch = async (childData) => {
     let SimData = await POST('http://localhost:5001/Simulation', {config: childData})
@@ -116,7 +123,7 @@ function App() {
       </Row>
       <Row>
         <Col>
-          <HeaderIndicator childData={CallbackIndicatorFetch} traces={PlotDataTraces}/>
+          <HeaderIndicator childData={CallbackIndicatorFetch} traces={PlotDataTraces} deleteTraces={deleteDataTraces}/>
         </Col>
         <Col>
           <HeaderSimulation childData={CallbackSimulationFetch}/>

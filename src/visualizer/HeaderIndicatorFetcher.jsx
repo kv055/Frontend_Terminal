@@ -52,6 +52,8 @@ let IndicatorFetcherHeader = (props) => {
         setAllRenderedIndicators(props.traces)
     },[props.traces])
 
+    const deleteTraces = props.deleteTraces
+
     const mapRenderedIndicators = (props) => {
         const Indicators = props.map((indicator) =>
             <ListGroup 
@@ -63,7 +65,7 @@ let IndicatorFetcherHeader = (props) => {
                             {indicator.name}
                         </Col>
                         <Col>
-                            <Button variant="dark" onClick={ ()=> {} }>Delete</Button>
+                            <Button variant="dark" onClick={()=> deleteTraces(indicator.id)}>Delete</Button>
                         </Col>
                     </Row>
                 </ListGroup.Item>
