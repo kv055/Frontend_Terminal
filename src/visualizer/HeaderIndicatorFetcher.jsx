@@ -3,8 +3,8 @@ import {useState, useEffect} from 'react';
 import { Alert, Button, Col, Container, Dropdown, DropdownButton, Form, ListGroup, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-// import POST from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchPOST.js'
 import GET from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchGET.js'
+import RenderedIndicatorsComponent from './RenderedIndicatorsSub'
 
 let IndicatorFetcherHeader = (props) => {
     const [HeaderData, setHeaderData] = useState({Loading: true})
@@ -38,7 +38,7 @@ let IndicatorFetcherHeader = (props) => {
     }   
 
     const listIndicators = HeaderData.Loading === true ?
-        <p></p> :
+        null :
         <p>{mapAllIndicators(HeaderData)}</p>
 
     
@@ -48,36 +48,14 @@ let IndicatorFetcherHeader = (props) => {
     }
 
     useEffect(()=> {
-        console.log(props.traces, 'props.traces')
         setAllRenderedIndicators(props.traces)
     },[props.traces])
 
-    const deleteTraces = props.deleteTraces
-
-    const mapRenderedIndicators = (props) => {
-        const Indicators = props.map((indicator) =>
-            <ListGroup 
-            // key={(indicator.selectedIndicator.symbol + indicator.selectedPeriod)}
-            >
-                <ListGroup.Item>
-                    <Row>
-                        <Col>
-                            {indicator.name}
-                        </Col>
-                        <Col>
-                            <Button variant="dark" onClick={()=> deleteTraces(indicator.id)}>Delete</Button>
-                        </Col>
-                    </Row>
-                </ListGroup.Item>
-            </ListGroup>
-       
-        )
-        return Indicators
-    }
+    // const deleteTraces = props.deleteTraces
     
     const RenderedIndicators = AllRenderedIndicators.length === 0 ?
-        <p></p> :
-        <p>{mapRenderedIndicators(AllRenderedIndicators)}</p>
+        null :
+        <RenderedIndicatorsComponent Indicators={AllRenderedIndicators} delete={props.deleteTraces}></RenderedIndicatorsComponent>
 
     return(
         <Container className="w-100 p-1">

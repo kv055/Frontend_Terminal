@@ -71,7 +71,8 @@ const LineCrossingsController  = (props) => {
                         'Indicator1': Indicator1,
                         'Period1' : Period1,
                         'Indicator2': Indicator2,
-                        'Period2' : Period2
+                        'Period2' : Period2,
+                        'id': Math.random()
                     })}
                 >
                     Render Strategy

@@ -126,7 +126,7 @@ function App() {
           <HeaderIndicator childData={CallbackIndicatorFetch} traces={PlotDataTraces} deleteTraces={deleteDataTraces}/>
         </Col>
         <Col>
-          <HeaderSimulation childData={CallbackSimulationFetch}/>
+          <HeaderSimulation childData={CallbackSimulationFetch} traces={PlotDataTraces} deleteTraces={deleteDataTraces}/>
         </Col>
       </Row>
       {TradesList}

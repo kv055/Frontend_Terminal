@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import GET from '/home/hackerboi/Dokumente/terminalUIReact/src/fetch_Modules/DataFetchGET.js'
 
 import TWOLCCON from './2LineCrossingsSubController'
+import RenderedStrategiesComponent from './RenderedStrategiesSub'
 
 let SimulationFetcherHeader = (props) => {
     const [HeaderData, setHeaderData] = useState({Loading: true})
@@ -45,44 +46,30 @@ let SimulationFetcherHeader = (props) => {
     let fetchSimulationData = (SimConfig) => {
         // Give Data Back to App.js 
         props.childData(SimConfig)
-        console.log(SimConfig);
         // Write in local State
         setAllRenderedStrategies([SimConfig])
-        console.log(AllRenderedStrategies);
     }
+
+    useEffect(()=> {
+        console.log(props.traces, 'props.traces')
+        setAllRenderedStrategies(props.traces)
+    },[props.traces])
 
     const TWOLCController = UserSelection.selectedStrategy === 'Please Select Strategy' ?
-        <p></p>:
+        null:
         <TWOLCCON callback={fetchSimulationData}/>
 
-  
-
-    const mapRenderedStrategies = (props) => {
-        const strategy = props.map((element) =>
-            <ListGroup.Item key={element.Indicator1.name}>
-                <Row>
-                    <Col>{element.Indicator1.name}</Col>
-                    <Col>{element.Period1}</Col>
-                    <Col>{element.Indicator2.name}</Col>
-                    <Col>{element.Period2}</Col>
-                    <Button variant="dark">Delete</Button>
-                </Row>
-            </ListGroup.Item>
-        )
-        return strategy
-    }
-
     const RenderedStrategies = AllRenderedStrategies.length === 0 ?
-        <p></p> :
-        <p>{mapRenderedStrategies(AllRenderedStrategies)}</p>
+        null :
+        <RenderedStrategiesComponent strategies={AllRenderedStrategies} delete={props.deleteTraces}></RenderedStrategiesComponent>
 
     return(
         <Container className="w-100 p-1">
             <Alert variant="dark">
             <Row>
-                    <DropdownButton variant="dark" id="dropdown-item-button" title={UserSelection.selectedStrategy}>
-                        {ListStrategies}
-                    </DropdownButton>
+                <DropdownButton variant="dark" id="dropdown-item-button" title={UserSelection.selectedStrategy}>
+                    {ListStrategies}
+                </DropdownButton>
             </Row>
             <Row>
                 {TWOLCController}
