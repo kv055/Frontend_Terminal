@@ -25,6 +25,8 @@ let creator = (props)=>{
             <Row>
                 <Col>
                     <ListGroup>
+                        <ListGroup.Item>Selected Strategy: {props.config.Strategy}</ListGroup.Item>
+                        <ListGroup.Item>Selected Configuration: {props.config.Name}</ListGroup.Item>
                         <ListGroup.Item>First Trade: {props.dataSet.Trades[0].Open}</ListGroup.Item>
                         <ListGroup.Item>Start Cash: {props.dataSet.Cash[0]}</ListGroup.Item>
                         <ListGroup.Item>Start Asset: {props.dataSet.AssetAmount[0]}</ListGroup.Item>
