@@ -13,8 +13,6 @@ let CheckIfSeperateGraphNeedsToBeRendered = (config) => {
     ]
     ListofIndicatorsWhereSeperateGraphNeedsToBeRendered.forEach(Indicator => {
         if (config.selectedIndicator.symbol === Indicator) {
-            console.log('Nigga Needs New Graph');
-            // setRenderGraph(['true'])
             lol.push(true)
         }
     })

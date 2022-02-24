@@ -1,10 +1,11 @@
 let creator = (OHLCSet, config)=>{
+
     let plotlyLayoutSet = 
         {
             autosize: true,
             title: config.assetPair,
-            width: window.innerWidth -50,
-            height: 700,
+            width: window.innerWidth,
+            height: window.innerHeight -200,
             margin: {
                 l: 50,
                 r: 50,

@@ -57,14 +57,14 @@ function App() {
     let SeperateGraphNeeded = RenderSeperateGraph(indicatorData.config)
     console.log();
     if (SeperateGraphNeeded === true) {
-      setSeperatePlot([...SeparatePlot,Rendered[0]]) 
+      setSeperatePlot([Rendered[0]]) 
       setSeparatePlotLayout({Layout: Seperate_Layout(indicatorData.config)})
       setRedayToRenderSeperatePlot({readyToRender: true})
     } else {
       setPlotDataTraces([...PlotDataTraces, Rendered[0]])
     }
   }
-  // Todo: Callback Indicator Delete
+  
   const deleteDataTraces = (id) => {
     console.log(id)
     let filtered = PlotDataTraces.filter(function(traceElement){
@@ -82,18 +82,17 @@ function App() {
       TradesListReadyToRender: true
     })
   }
-//Todo: Callback Simulation Delete
 
 
   let OHLCChart = OHLCData.OHLCChartReadyToRender === false ? 
   <Alert variant='light'> <Row className='row justify-content-center'> <h4 style={{textAlign: 'center'}}>Loading Graph</h4> <Spinner animation="border" /> <Spinner animation="border" /> <Spinner animation="border" /> </Row> </Alert>  : 
     <Plot 
-      dataSet={ PlotDataTraces }
+      dataSet={PlotDataTraces}
       layoutSet={ PlotLayout.Layout }
     />
   
   let SeperaterPlotToRender = RedayToRenderSeperatePlot.readyToRender === false ?
-  <p></p> :
+  null :
   <Plot 
       dataSet={SeparatePlot}
       layoutSet={SeparatePlotLayout.Layout}
@@ -106,8 +105,7 @@ function App() {
         dataSet={SimulationData.Simulation}
         config={SimulationData.config}
       />
-
-      
+  
   return (
     <div className="App">
       <Row>
