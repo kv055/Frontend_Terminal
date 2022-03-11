@@ -1,14 +1,16 @@
 //  import {useState} from 'react';
-import {Alert, Col, Row ,Spinner} from 'react-bootstrap';
+import { Col, Row  
+    // ,Alert, Spinner
+} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 //  Plot Generator Modules
-import Plot from './generator_Modules/PlotGenerator'
+// import Plot from './generator_Modules/PlotGenerator'
 
 import AbelianHeader from './visualizer/Abelian_Header'
-import HeaderLiveDeployment from './visualizer/HeaderLiveDeployments'
-import HeaderIndicator from './visualizer/HeaderIndicatorFetcher'
-import HeaderNewDeployment from './visualizer/DeployNewStrategy'
+// import HeaderLiveDeployment from './visualizer/HeaderLiveDeployments'
+// import HeaderIndicator from './visualizer/HeaderIndicatorFetcher'
+// import HeaderNewDeployment from './visualizer/DeployNewStrategy'
 // import TradesHistory from './visualizer/TradesHistory'
 
 function LiveTesting(props) {
@@ -19,12 +21,12 @@ function LiveTesting(props) {
     //  const [RedayToRenderSeperatePlot,setRedayToRenderSeperatePlot] = useState({readyToRender: false})
     //  const [SeparatePlotLayout,setSeparatePlotLayout] = useState([])
 
-    let OHLCChart = 2>1 === false ? 
-    <Alert variant='light'> <Row className='row justify-content-center'> <h4 style={{textAlign: 'center'}}>Loading Graph</h4> <Spinner animation="border" /> <Spinner animation="border" /> <Spinner animation="border" /> </Row> </Alert>  : 
-    <Plot 
-        // dataSet={PlotDataTraces}
-        // layoutSet={ PlotLayout.Layout }
-    />
+    // let OHLCChart = 2>1 === false ? 
+    // <Alert variant='light'> <Row className='row justify-content-center'> <h4 style={{textAlign: 'center'}}>Loading Graph</h4> <Spinner animation="border" /> <Spinner animation="border" /> <Spinner animation="border" /> </Row> </Alert>  : 
+    // <Plot 
+    //     // dataSet={PlotDataTraces}
+    //     // layoutSet={ PlotLayout.Layout }
+    // />
 
 //   let TradesList = 2>1 === false ?
 //   <Alert variant='light'> <Row className='row justify-content-center'> <h4 style={{textAlign: 'center'}}>Loading Simulation</h4><Spinner animation="border" /> <Spinner animation="border" /> <Spinner animation="border" /> </Row> </Alert> :

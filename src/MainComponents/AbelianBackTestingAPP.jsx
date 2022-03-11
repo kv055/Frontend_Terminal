@@ -9,7 +9,7 @@ import POST from './fetch_Modules/DataFetchPOST'
 import OHLC_Data_Formater from './formater_Modules/OHLC_Data_Formater'
 import OHLC_Layout from './formater_Modules/OHLC_Layout_Formater'
 import Multiple_DataSets from './formater_Modules/Multiple_Data_Sets_Formater'
-import Markers_DataSets from './formater_Modules/Markers_DataSets_Formater'
+// import Markers_DataSets from './formater_Modules/Markers_DataSets_Formater'
 import RenderSeperateGraph from './formater_Modules/RenderSeperateGraph'
 import Seperate_Layout from './formater_Modules/Seperate_Plot_Layout_formater'
 import Simulation_DataTrace from './formater_Modules/Simulator_Data_Formater'
@@ -73,27 +73,27 @@ function BackTestingModule(props) {
     setPlotDataTraces(filtered)
   
     // //Now make sure Pricedata does not get rendered on Seperate Plot
-    let noMainPlotTraces = filtered.filter(function(traceElement){
-      let ListofIndicatorsWhereSeperateGraphNeedsToBeRendered = [
-        "PriceData",
-        'ADX',
-        'ADXR',
-        'AROONOSC',
-        'BOP',
-        'CCI',
-        'RSI'
-    ]  
+    // let noMainPlotTraces = filtered.filter(function(traceElement){
+    //   let ListofIndicatorsWhereSeperateGraphNeedsToBeRendered = [
+    //     "PriceData",
+    //     'ADX',
+    //     'ADXR',
+    //     'AROONOSC',
+    //     'BOP',
+    //     'CCI',
+    //     'RSI'
+    // ]  
 
-    let newFilter = []
+    // let newFilter = []
 
-    ListofIndicatorsWhereSeperateGraphNeedsToBeRendered.forEach((element)=>{
-      if (traceElement.name !== element) {
-          newFilter.push(traceElement.name)
-      } 
-    })
-    console.log(newFilter);
-    return newFilter
-    })
+    // ListofIndicatorsWhereSeperateGraphNeedsToBeRendered.forEach((element)=>{
+    //   if (traceElement.name !== element) {
+    //       newFilter.push(traceElement.name)
+    //   } 
+    // })
+    // console.log(newFilter);
+    // return newFilter
+    // })
     
     // setSeperatePlot(filtered)
   }

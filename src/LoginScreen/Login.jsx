@@ -91,8 +91,8 @@ function LoginScreen(props) {
                         onClick={() => {
                             props.LogInStatus({
                                 isLoggedIn: true,
-                            //     Used: UserID,
-                            //     Password: Password
+                                User: UserID,
+                                Password: Password
                             })
                             props.Callback(BackendSelection.SelectedBackend)
                             
