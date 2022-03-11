@@ -6,6 +6,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import GET from '../fetch_Modules/DataFetchGET'
 import RenderedIndicatorsComponent from './RenderedIndicatorsSub'
 
+//Import and configure Environement variables
+let baseURL = process.env.NODE_ENV === 'production' ?
+  process.env.REACT_APP_DEPLOY_URL:
+  process.env.REACT_APP_DEV_URL
+
 let IndicatorFetcherHeader = (props) => {
     const [HeaderData, setHeaderData] = useState({Loading: true})
     const [UserSelection, setUserSelection] = useState({
@@ -16,8 +21,7 @@ let IndicatorFetcherHeader = (props) => {
 
     // Fetch List of DataSources/Exchanges
     let fetchListOfIndicators = async()=>{
-        let listOfIndicators = await GET('http://localhost:5001/ListAllIndicators')
-        console.log(listOfIndicators);
+        let listOfIndicators = await GET(baseURL+'/ListAllIndicators')
         setHeaderData({
             allIndicators: listOfIndicators.IndicatorsToRender
         })

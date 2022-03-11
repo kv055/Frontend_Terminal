@@ -5,7 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import POST from '../fetch_Modules/DataFetchPOST'
 import GET from '../fetch_Modules/DataFetchGET'
 
-
+//Import and configure Environement variables
+let baseURL = process.env.NODE_ENV === 'production' ?
+  process.env.REACT_APP_DEPLOY_URL:
+  process.env.REACT_APP_DEV_URL
 
 let DataFetcherHeader = (props) => {
 
@@ -18,7 +21,7 @@ let DataFetcherHeader = (props) => {
 
     // Fetch List of DataSources/Exchanges
     let fetchDataSources = async()=>{
-        let listofDatasources = await GET('http://localhost:5001/DataSources')
+        let listofDatasources = await GET(baseURL+'/DataSources')
         setHeaderData({
             dataSources: listofDatasources.Metadata,
             Loading: true,
@@ -33,7 +36,7 @@ let DataFetcherHeader = (props) => {
     
     // 
     let fetchAssetList = async(selectedExchange) => {
-        let listofAssets = await POST('http://localhost:5001/AssetPairs',{"DataSource": selectedExchange})
+        let listofAssets = await POST(baseURL+'/AssetPairs',{"DataSource": selectedExchange})
         setHeaderData({
             ...HeaderData,
             assetPairs: listofAssets.AssetPairs.assetPairs,

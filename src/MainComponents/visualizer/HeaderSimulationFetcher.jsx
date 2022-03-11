@@ -7,6 +7,11 @@ import GET from '../fetch_Modules/DataFetchGET.js'
 import TWOLCCON from './2LineCrossingsSubController'
 import RenderedStrategiesComponent from './RenderedStrategiesSub'
 
+//Import and configure Environement variables
+let baseURL = process.env.NODE_ENV === 'production' ?
+  process.env.REACT_APP_DEPLOY_URL:
+  process.env.REACT_APP_DEV_URL
+
 let SimulationFetcherHeader = (props) => {
     const [HeaderData, setHeaderData] = useState({Loading: true})
     const [UserSelection, setUserSelection] = useState({
@@ -18,7 +23,7 @@ let SimulationFetcherHeader = (props) => {
     
     
     let fetchListOfStrategies = async()=>{
-        let listOfStrategies = await GET('http://localhost:5001/ListAllStrategies')
+        let listOfStrategies = await GET(baseURL+'/ListAllStrategies')
         setHeaderData({
             allStrategies: listOfStrategies.Strategies
         })

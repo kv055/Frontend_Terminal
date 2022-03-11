@@ -13,6 +13,11 @@ import AbelianHeader from './visualizer/Abelian_Header'
 // import HeaderNewDeployment from './visualizer/DeployNewStrategy'
 // import TradesHistory from './visualizer/TradesHistory'
 
+// //Import and configure Environement variables
+// let baseURL = process.env.NODE_ENV === 'production' ?
+//   process.env.REACT_APP_DEPLOY_URL:
+//   process.env.REACT_APP_DEV_URL
+
 function LiveTesting(props) {
     //  const [CurrentyExecuting, setCurrentyExecuting] = useState({TradesListReadyToRender: false})
     //  const [PlotDataTraces, setPlotDataTraces] = useState([])

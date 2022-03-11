@@ -24,6 +24,13 @@ import HeaderIndicator from './visualizer/HeaderIndicatorFetcher'
 import HeaderSimulation from './visualizer/HeaderSimulationFetcher'
 import TradesHistory from './visualizer/TradesHistory'
 
+//Import and configure Environement variables
+let baseURL = process.env.NODE_ENV === 'production' ?
+  process.env.REACT_APP_DEPLOY_URL:
+  process.env.REACT_APP_DEV_URL
+
+
+
 function BackTestingModule(props) {
   // Initialize State Variable
   const [SimulationData, setSimulationData] = useState({TradesListReadyToRender: false})
@@ -38,7 +45,7 @@ function BackTestingModule(props) {
   // fetching OHLC Data (CallbackOHLC is a callback function that gets the data out of the Component)
   let CallbackOHLC = async (childData) =>{
     console.log(childData);
-    let ohlcFetched = await POST('http://127.0.0.1:5001/OHLC', {
+    let ohlcFetched = await POST(baseURL+'/OHLC', {
       ohlcConfig: { 
         exchange: childData.ohlcConfig.exchange.mic,
         assetPair: childData.ohlcConfig.assetPair.symbol,
@@ -53,7 +60,7 @@ function BackTestingModule(props) {
   }
   
   const CallbackIndicatorFetch = async (childData) => {
-    let indicatorData = await POST('http://localhost:5001/RenderIndicator', {config: childData})
+    let indicatorData = await POST(baseURL+'/RenderIndicator', {config: childData})
     let Rendered = Multiple_DataSets([indicatorData.Indicator],indicatorData.config)
     let SeperateGraphNeeded = RenderSeperateGraph(indicatorData.config)
 
@@ -99,7 +106,7 @@ function BackTestingModule(props) {
   }
 
   const CallbackSimulationFetch = async (childData) => {
-    let SimData = await POST('http://localhost:5001/Simulation', {config: childData})
+    let SimData = await POST(baseURL+'/Simulation', {config: childData})
     let TestRendering = Simulation_DataTrace(SimData.Simulation,childData)
     setPlotDataTraces([...PlotDataTraces, TestRendering])
     setSimulationData({
