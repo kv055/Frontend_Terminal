@@ -33,6 +33,11 @@ function LoginScreen(props) {
                                 title={BackendSelection.SelectedBackend}
                                 className='row justify-content-center'
                             >
+                                
+                                <Dropdown.Item  
+                                    onClick={() => setBackendSelection({SelectedBackend: 'Abelian Analytics'})}>
+                                        Abelian Analytics
+                                </Dropdown.Item>
                                 <Dropdown.Item  
                                     onClick={() => setBackendSelection({SelectedBackend: 'Abelian Backtesting'})}>
                                         Abelian BackTesting
@@ -41,6 +46,7 @@ function LoginScreen(props) {
                                     onClick={() => setBackendSelection({SelectedBackend: 'Abelian LiveTrading'})}>
                                         Abelian LiveTrading
                                 </Dropdown.Item>
+
                             </DropdownButton>
                         </Card.Body>
                     </Card>

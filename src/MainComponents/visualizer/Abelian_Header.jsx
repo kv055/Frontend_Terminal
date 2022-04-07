@@ -21,6 +21,11 @@ let Header = (props) => {
                         </Col>
                         <Col>
                         <DropdownButton variant="dark" id="dropdown-item-button" title={BackendSelection.SelectedBackend}>
+                            
+                            <Dropdown.Item  onClick={() => {
+                                setBackendSelection({SelectedBackend: 'Abelian Analytics'})
+                                setBackend('Abelian Analytics')
+                                }}>Abelian Analytics</Dropdown.Item>
                             <Dropdown.Item  onClick={() => {
                                 setBackendSelection({SelectedBackend: 'Abelian Backtesting'})
                                 setBackend('Abelian Backtesting')
@@ -29,6 +34,7 @@ let Header = (props) => {
                                 setBackendSelection({SelectedBackend: 'Abelian LiveTrading'})
                                 setBackend('Abelian LiveTrading')
                             }}>Abelian LiveTrading</Dropdown.Item>
+                            
                         </DropdownButton>
                         </Col>
                     </Row>

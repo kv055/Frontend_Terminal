@@ -3,6 +3,7 @@ import {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import Login from './LoginScreen/Login'
+import Analytics from './MainComponents/AbelianAnalyticsAPP'
 import BackTesting from './MainComponents/AbelianBackTestingAPP'
 import LiveTrading from './MainComponents/AbelianLiveTradingAPP'
 
@@ -14,6 +15,11 @@ function App() {
   //Conditional Rendering Login Component
   let LoginMount = UserIsLoggedIn.isLoggedIn === false ?
   <Login LogInStatus={setUserIsLoggedIn} Callback={setSelectedBackEnd}></Login> :
+  null
+
+  //Conditional Rendering Analytics FrameWork
+  let AnalyticsMount = UserIsLoggedIn.isLoggedIn === true && SelectedBackEnd === 'Abelian Analytics'?
+  <Analytics Callback={setSelectedBackEnd}></Analytics> :
   null
 
   //Conditional Rendering BackTesting FrameWork
@@ -31,6 +37,7 @@ function App() {
       {LoginMount}
       {BackTestingMount}
       {LiveTradingMount}
+      {AnalyticsMount}
     </div>
   );
 }

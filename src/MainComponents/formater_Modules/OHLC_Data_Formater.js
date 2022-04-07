@@ -1,5 +1,5 @@
-let creator = (OHLCSet)=>{
-    
+let creator = (OHLCSet, config)=>{
+    console.log(config);
     let plotlyDataSet = {
         //X-Axis
         x: [],
@@ -13,7 +13,8 @@ let creator = (OHLCSet)=>{
         type: 'candlestick', 
         xaxis: 'x', 
         yaxis:'y',
-        name: 'PriceData'
+        name: config.assetPair,
+        id: config.id
     }
 
     OHLCSet.forEach( candleStick => {

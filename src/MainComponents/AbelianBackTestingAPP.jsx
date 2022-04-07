@@ -52,11 +52,12 @@ function BackTestingModule(props) {
         candleSize: childData.ohlcConfig.candleSize 
       }
     })
+    console.log(ohlcFetched.config);
     setOHLCData({
        OHLCChartReadyToRender: true
      })
      setPlotLayout({Layout: OHLC_Layout(ohlcFetched.OHLC, ohlcFetched.config)})
-     setPlotDataTraces([OHLC_Data_Formater(ohlcFetched.OHLC)])
+     setPlotDataTraces([OHLC_Data_Formater(ohlcFetched.OHLC , ohlcFetched.config)])
   }
   
   const CallbackIndicatorFetch = async (childData) => {

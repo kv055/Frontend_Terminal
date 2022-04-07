@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {Alert, Button, Container, Dropdown, DropdownButton, Col, Row } from 'react-bootstrap';
+import {Alert, Button, Container, Dropdown, DropdownButton, ListGroup, Col, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import POST from '../fetch_Modules/DataFetchPOST'
@@ -12,12 +12,13 @@ let baseURL = process.env.NODE_ENV === 'production' ?
 
 let DataFetcherHeader = (props) => {
 
-   const [HeaderData, setHeaderData] = useState({Loading: true, LoadingDataSources : true})
-   const [UserSelection, setUserSelection] = useState({ 
+    const [HeaderData, setHeaderData] = useState({Loading: true, LoadingDataSources : true})
+    const [UserSelection, setUserSelection] = useState({ 
         exchange: {name:'Select Exchange'},
         assetPair: {name:'Select Asset'},
         candleSize: 'Select CandleSize'
     })
+    const  [DataSetsToFetch,setDataSetsToFetch] = useState([])
 
     // Fetch List of DataSources/Exchanges
     let fetchDataSources = async()=>{
@@ -63,7 +64,7 @@ let DataFetcherHeader = (props) => {
 
     let listAssetPairs = (props)=>{
         const AssetPairs = props.assetPairs.map((element) => 
-        <Dropdown.Item key={element.symbol} onClick={() => setUserSelection({...UserSelection,'assetPair': element})}>{element.name}</Dropdown.Item>
+        <Dropdown.Item key={element.symbol} onClick={() => setUserSelection({...UserSelection,'assetPair': element, 'id': Math.random()})}>{element.name}</Dropdown.Item>
         )
         return AssetPairs
     }
@@ -83,12 +84,55 @@ let DataFetcherHeader = (props) => {
         <p>{UserSelection.CandleSize}</p>  : 
         <p>{listCandleSizes(HeaderData)}</p>
 
+    // Rendered PriceDataSets
+    const PriceDataSets = DataSetsToFetch.map((PriceData) =>
+    <ListGroup 
+        key={PriceData.id}
+    >
+        <ListGroup.Item>
+            <Row>
+                <Col>
+                    {PriceData.exchange.name}
+                </Col>
+                <Col>
+                    {PriceData.assetPair.name}
+                </Col>
+                <Col>
+                    {PriceData.candleSize}
+                </Col>
+                <Col>
+                    <Button variant="dark" onClick={()=> {
+                        props.deleteTraces(PriceData.id)
+                        // deletefromRenderedComponent(PriceData.id)
+                        }}>Delete
+                    </Button>
+                </Col>
+            </Row>
+        </ListGroup.Item>
+    </ListGroup>
+    )
+
+    const FetchedPriceDataSets = DataSetsToFetch.length  <= 0 ? 
+    null :
+    PriceDataSets
+
+    useEffect(()=>{
+        let allConfigSets = [] 
+        DataSetsToFetch.forEach(element => {
+            let ohlcConfig = { 
+                exchange: element.exchange.mic,
+                assetPair: element.assetPair.symbol,
+                candleSize: element.candleSize 
+              }
+            allConfigSets.push(ohlcConfig)
+        })
+        props.childData(allConfigSets)
+    },[DataSetsToFetch])   
     
     return(
         <Alert variant="dark">
             <Container>
                 <Row>
-                
                     <Col className='justify-content-md-center'>
                         <DropdownButton  variant="dark" id="dropdown-item-button" title={UserSelection.exchange.name}>
                             {DataSources}
@@ -110,12 +154,18 @@ let DataFetcherHeader = (props) => {
                     </Col>
 
                     <Col>
-                        <Button variant="success" onClick={() => props.childData({'ohlcConfig':UserSelection})}>
-                            Render Graph
+                        <Button variant="dark" onClick={() => 
+                            setDataSetsToFetch([...DataSetsToFetch, UserSelection])
+                        }>
+                            Add
                         </Button>
                     </Col>
                     
                 </Row>
+                <Row>
+                    {FetchedPriceDataSets}
+                </Row>
+
             </Container>
         </Alert>
     )
