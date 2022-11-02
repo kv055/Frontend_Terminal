@@ -17,8 +17,21 @@ let NewDeployment = (props) => {
             <Container>
                 <Row>
                     <Col className='justify-content-md-center'>
-                        <DropdownButton  variant="dark" id="dropdown-item-button" title={'Choose Configuration'}>
+                        <DropdownButton  variant="dark" id="dropdown-item-button" title={'Select Exchange/Broker'}>
+                            Select Exchange/Broker
                         </DropdownButton>
+                        <DropdownButton  variant="dark" id="dropdown-item-button" title={'Select Asset/Pair'}>
+                            Select Asset/Pair
+                        </DropdownButton>
+                        <DropdownButton  variant="dark" id="dropdown-item-button" title={'Select Strategy'}>
+                            Select Strategy
+                        </DropdownButton>
+                        
+                        {/* Form enter Parameter */}
+
+                        <Button>
+                            Deploy
+                        </Button>
                     </Col>
                   
                     <Col>

@@ -8,9 +8,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 // import Plot from './generator_Modules/PlotGenerator'
 
 import AbelianHeader from './visualizer/Abelian_Header'
-// import HeaderLiveDeployment from './visualizer/HeaderLiveDeployments'
+import HeaderLiveDeployment from './visualizer/HeaderLiveDeployments'
 // import HeaderIndicator from './visualizer/HeaderIndicatorFetcher'
-// import HeaderNewDeployment from './visualizer/DeployNewStrategy'
+import HeaderNewDeployment from './visualizer/DeployNewStrategy'
 // import TradesHistory from './visualizer/TradesHistory'
 
 // //Import and configure Environement variables
@@ -46,10 +46,13 @@ function LiveTesting(props) {
                 <Col>
                  {<AbelianHeader SetBackend={props.Callback}/>}  
                  </Col>
-                {/* <Col>
-                <HeaderLiveDeployment />
-                 </Col> */}
-                 <h1>LiveTrading Module is still in developement</h1>
+                <Col>
+                    <HeaderLiveDeployment />
+                </Col>
+                <Col>
+                    <HeaderNewDeployment />
+                </Col>
+                 
             </Row>
              {/* <Row>
                  {OHLCChart}

@@ -44,15 +44,10 @@ function BackTestingModule(props) {
   // Then wait till we get the necesary Data from the HeaderDataFetcher Component to start 
   // fetching OHLC Data (CallbackOHLC is a callback function that gets the data out of the Component)
   let CallbackOHLC = async (childData) =>{
-    console.log(childData);
-    let ohlcFetched = await POST(baseURL+'/OHLC', {
-      ohlcConfig: { 
-        exchange: childData.ohlcConfig.exchange.mic,
-        assetPair: childData.ohlcConfig.assetPair.symbol,
-        candleSize: childData.ohlcConfig.candleSize 
-      }
-    })
-    console.log(ohlcFetched.config);
+    // console.log(childData);
+    let ohlcFetched = await POST(baseURL+'/Abelian_Terminal_post_ohlc_config_for_plotdata', childData.assetPair
+        // candleSize: childData.ohlcConfig.candleSize 
+    )
     setOHLCData({
        OHLCChartReadyToRender: true
      })

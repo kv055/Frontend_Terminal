@@ -20,9 +20,9 @@ const ModelsFetcherHeader = (props) => {
     const [AllRenderedModels,setAllRenderedModels] = useState([])
 
     let fetchListOfModels = async()=>{
-        let listOfModels = await GET(baseURL+'//AllModels')
+        let listOfModels = await GET(baseURL+'/Abelian_Terminal_get_selectors')
         setHeaderData({
-            allModels: listOfModels.Metadata,
+            allModels: listOfModels.all_Models,
             Loading: false
         })
     }

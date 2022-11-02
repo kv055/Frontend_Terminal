@@ -21,9 +21,9 @@ let IndicatorFetcherHeader = (props) => {
 
     // Fetch List of DataSources/Exchanges
     let fetchListOfIndicators = async()=>{
-        let listOfIndicators = await GET(baseURL+'/ListAllIndicators')
+        let listOfIndicators = await GET(baseURL+'/Abelian_Terminal_get_selectors')
         setHeaderData({
-            allIndicators: listOfIndicators.IndicatorsToRender
+            allIndicators: listOfIndicators.all_technical_Indicators
         })
     }
 

@@ -23,9 +23,9 @@ let SimulationFetcherHeader = (props) => {
     
     
     let fetchListOfStrategies = async()=>{
-        let listOfStrategies = await GET(baseURL+'/ListAllStrategies')
+        let listOfStrategies = await GET(baseURL+'/Abelian_Terminal_get_selectors')
         setHeaderData({
-            allStrategies: listOfStrategies.Strategies
+            allStrategies: listOfStrategies.all_Strategies
         })
     }
 

@@ -21,9 +21,9 @@ let DataFetcherHeader = (props) => {
 
     // Fetch List of DataSources/Exchanges
     let fetchDataSources = async()=>{
-        let listofDatasources = await GET(baseURL+'/DataSources')
+        let listofDatasources = await GET(baseURL+'/Abelian_Terminal_get_selectors')
         setHeaderData({
-            dataSources: listofDatasources.Metadata,
+            dataSources: listofDatasources.all_OHLC_sources,
             Loading: true,
             LoadingDataSources : false
         })
@@ -36,17 +36,17 @@ let DataFetcherHeader = (props) => {
     
     // 
     let fetchAssetList = async(selectedExchange) => {
-        let listofAssets = await POST(baseURL+'/AssetPairs',{"DataSource": selectedExchange})
+        let listofAssets = await POST(baseURL+'/Abelian_Terminal_post_asset_selectors',{"DataSource": selectedExchange})
         setHeaderData({
             ...HeaderData,
-            assetPairs: listofAssets.AssetPairs.assetPairs,
-            candleSizes: listofAssets.AssetPairs.candleSize,
+            assetPairs: listofAssets.assetPairs,
+            // candleSizes: listofAssets.AssetPairs.candleSize,
             Loading : false
         })
         setUserSelection({ 
             exchange: selectedExchange,
             assetPair: {name:'Select Asset'},
-            candleSize: 'Select CandleSize'
+            // candleSize: 'Select CandleSize'
         })
    } 
    
@@ -63,7 +63,7 @@ let DataFetcherHeader = (props) => {
 
     let listAssetPairs = (props)=>{
         const AssetPairs = props.assetPairs.map((element) => 
-        <Dropdown.Item key={element.symbol} onClick={() => setUserSelection({...UserSelection,'assetPair': element})}>{element.name}</Dropdown.Item>
+        <Dropdown.Item key={element.ticker} onClick={() => setUserSelection({...UserSelection,'assetPair': element})}>{element.ticker}</Dropdown.Item>
         )
         return AssetPairs
     }
@@ -72,16 +72,16 @@ let DataFetcherHeader = (props) => {
         <p>{UserSelection.Asset}</p>  : 
         <p>{listAssetPairs(HeaderData)}</p>
  
-    let listCandleSizes = (props)=>{
-        const CandleSizes = props.candleSizes.map((element) =>
-        <Dropdown.Item key={element} onClick={() => setUserSelection({...UserSelection, 'candleSize':element, 'id': Math.random()})}>{element}</Dropdown.Item> 
-        )
-        return CandleSizes
-    }
+    // let listCandleSizes = (props)=>{
+    //     const CandleSizes = props.candleSizes.map((element) =>
+    //     <Dropdown.Item key={element} onClick={() => setUserSelection({...UserSelection, 'candleSize':element, 'id': Math.random()})}>{element}</Dropdown.Item> 
+    //     )
+    //     return CandleSizes
+    // }
 
-    const CandleSizes = HeaderData.Loading === true ? 
-        <p>{UserSelection.CandleSize}</p>  : 
-        <p>{listCandleSizes(HeaderData)}</p>
+    // const CandleSizes = HeaderData.Loading === true ? 
+    //     <p>{UserSelection.CandleSize}</p>  : 
+    //     <p>{listCandleSizes(HeaderData)}</p>
 
     
     return(
@@ -103,14 +103,14 @@ let DataFetcherHeader = (props) => {
                     </Col>
                     
                 
-                    <Col>
+                    {/* <Col>
                         <DropdownButton variant="dark" id="dropdown-item-button" title={UserSelection.candleSize}>
                             {CandleSizes}
                         </DropdownButton>
-                    </Col>
+                    </Col> */}
 
                     <Col>
-                        <Button variant="success" onClick={() => props.childData({'ohlcConfig':UserSelection})}>
+                        <Button variant="success" onClick={() => props.childData(UserSelection)}>
                             Render Graph
                         </Button>
                     </Col>
